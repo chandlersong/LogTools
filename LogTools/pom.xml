@@ -3,6 +3,50 @@
   <groupId>org.logtools</groupId>
   <artifactId>LogTools</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.version>3.1.2.RELEASE</spring.version>
+  </properties>
+  
+  <build>
+   <resources>
+      <resource>
+        <directory>src\main\resources\spring</directory>
+      </resource>
+      <resource>
+        <directory>src\main\resources\log4j</directory>
+      </resource>
+    </resources>
+    <plugins>
+    	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+					<skipTests>ture</skipTests>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+							<includeScope>runtime</includeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+    </plugins>  
+  </build>
   
     <dependencies>
 	    <dependency>
@@ -16,5 +60,37 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.1</version>
     	</dependency>
+    	<!-- Spring -->
+    	<dependency>
+	    	<groupId>org.springframework</groupId>
+	    	<artifactId>spring-beans</artifactId>
+	    	<version>${spring.version}</version>
+	    </dependency>
+	    <dependency>
+	    	<groupId>org.springframework</groupId>
+	    	<artifactId>spring-context</artifactId>
+	    	<version>${spring.version}</version>
+	    </dependency>
+	    <dependency>
+	    	<groupId>cglib</groupId>
+	    	<artifactId>cglib</artifactId>
+	    	<version>2.2</version>
+	    </dependency>
+	    <dependency>
+	    	<groupId>org.springframework</groupId>
+	    	<artifactId>spring-aop</artifactId>
+	    	<version>${spring.version}</version>
+	    </dependency>
+	    <dependency>
+	    	<groupId>aspectj</groupId>
+	    	<artifactId>aspectjweaver</artifactId>
+	    	<version>1.5.4</version>
+	    </dependency>
+	    <dependency>
+	    	<groupId>org.springframework</groupId>
+	    	<artifactId>spring-aspects</artifactId>
+	    	<version>${spring.version}</version>
+	    </dependency>
+	    <!-- Spring -->
    </dependencies>
 </project>
