@@ -14,7 +14,7 @@ public interface LogEntry {
      * get the line number of this log<br>
      * 
      * if one log entry is multi-line, for example. it's a exception log. it's line number is 10 and  prints 10 lines.<br>
-     * the next LogEntry's lineNumber is 20
+     * the next LogEntry's lineNumber is 11
      * @return
      */
     public Integer getLineNumber();
