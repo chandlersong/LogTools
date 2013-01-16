@@ -51,4 +51,9 @@ public class Log4jLogEntry implements LogEntry {
         return null;
     }
 
+    public String get(String pattern) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

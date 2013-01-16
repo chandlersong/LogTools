@@ -1,0 +1,2 @@
+main 2013-01-02 15:15:41.810  15:15:41,810  INFO com.hilatest.log4j.LogGenerator:13 - info log
+main 2013-01-02 15:15:41.816  15:15:41,816 ERROR com.hilatest.log4j.LogGenerator:15 - error log

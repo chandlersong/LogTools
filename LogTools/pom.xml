@@ -17,6 +17,11 @@
         <directory>src\main\resources\log4j</directory>
       </resource>
     </resources>
+    <testResources>
+      <testResource>
+        <directory>src\test\resources\logfile</directory>
+      </testResource>
+    </testResources>
     <plugins>
     	<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -54,6 +59,12 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 		</dependency>
+		<dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	      <version>4.8.2</version>
+	      <scope>test</scope>
+	    </dependency>
 		<!--
 			chainsaw start
 			to use LogFilePatternReceiver, if there's better way to use, can change here
