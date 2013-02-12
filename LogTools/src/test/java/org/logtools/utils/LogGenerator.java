@@ -17,8 +17,6 @@ public class LogGenerator {
     
     @Test
     public void generateSimpleERRORlog(){
-        logger.info("info log");
-        logger.trace("trace log");
         logger.error("error log",new IllegalArgumentException());
     }
 }
