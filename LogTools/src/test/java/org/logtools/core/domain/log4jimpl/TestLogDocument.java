@@ -63,6 +63,7 @@ public class TestLogDocument {
         while (iter.hasNext()) {
             LogEntry le = iter.next();
             Assert.assertTrue(le.equals(logs[i]));
+            i++;
         }
 
         iter.remove();
@@ -72,6 +73,7 @@ public class TestLogDocument {
      * this test case doesn't cover duplicate log which will be added in the
      * future
      */
+    @Test
     public void TestFindLog() {
 
         int index = r.nextInt(100);
