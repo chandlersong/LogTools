@@ -27,7 +27,7 @@ public class Log4jLogDocument implements LogDocument {
 
     /**
      * just disable the remove function;
-     * ii will delegate other methods.
+     * it will delegate other methods.
      * 
      * @author Chandler.Song
      * 
