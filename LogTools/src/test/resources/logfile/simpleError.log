@@ -1,4 +1,4 @@
-main 2013-02-12 09:41:06.624  09:41:06,624 ERROR org.logtools.utils.LogGenerator:20 - error log
+main 2013-02-18 23:30:28.549 ERROR org.logtools.utils.LogGenerator:20 - error log
 java.lang.IllegalArgumentException
 	at org.logtools.utils.LogGenerator.generateSimpleERRORlog(LogGenerator.java:20)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
