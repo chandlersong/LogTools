@@ -70,19 +70,26 @@ public class CustomLogFilePatternReceiver extends LogFilePatternReceiver {
         public static final char LINE_END = 'l';
     }
 
+    
+    public CustomLogFilePatternReceiver(){
+        super();
+    }
+    
+    public CustomLogFilePatternReceiver(String Log4jExpression ){
+        super();
+        this.Log4jExpression = Log4jExpression;
+        this.initialize();
+    }
+    
     @Override
     protected void initialize() {
 
         // check the format Expression, if it's log4j's, use custom flow
         if (StringUtils.isBlank(Log4jExpression)) {
-            super.initialize();
-        } else {
-            this.initializeLog4j();
+           this.setLogFormat(this.translateExpression(Log4jExpression));
         }
-    }
-
-    private void initializeLog4j() {
-
+        
+        super.initialize();
     }
 
     /**
