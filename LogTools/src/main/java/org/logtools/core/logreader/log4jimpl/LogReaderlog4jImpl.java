@@ -17,9 +17,9 @@ public class LogReaderlog4jImpl implements LogReader {
         return null;
     }
 
-    public LogDocument readLog(File logFile) {
+    public void process(File[] logFile, String pattern, File outputdirectory) {
         // TODO Auto-generated method stub
-        return null;
+
     }
 
 }
