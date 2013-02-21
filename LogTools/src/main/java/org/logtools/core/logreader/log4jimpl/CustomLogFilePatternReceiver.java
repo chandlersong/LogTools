@@ -1,10 +1,11 @@
 package org.logtools.core.logreader.log4jimpl;
 
+import java.lang.reflect.Field;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.log4j.varia.LogFilePatternReceiver;
 
 /**
  * 
@@ -22,7 +23,9 @@ import org.apache.log4j.varia.LogFilePatternReceiver;
  * @author Chandler.Song
  * 
  */
-public class CustomLogFilePatternReceiver extends LogFilePatternReceiver {
+public class CustomLogFilePatternReceiver {
+
+    private static final String REGEXP = "regexp";
 
     private static Logger logger = Logger
             .getLogger(CustomLogFilePatternReceiver.class);
@@ -39,6 +42,9 @@ public class CustomLogFilePatternReceiver extends LogFilePatternReceiver {
     public static final String LINE = "LINE";
     public static final String METHOD = "METHOD";
 
+    // all lines other than first line of exception begin with tab followed by
+    // 'at' followed by text
+    private static final String EXCEPTION_PATTERN = "^\\s+at.*";
     /* copy from super class */
 
     private String Log4jExpression;
@@ -70,26 +76,47 @@ public class CustomLogFilePatternReceiver extends LogFilePatternReceiver {
         public static final char LINE_END = 'l';
     }
 
-    
-    public CustomLogFilePatternReceiver(){
+    private String regexp;
+    private Pattern regexpPattern;
+    private Pattern exceptionPattern;
+
+    private String timestampFormat;
+    private String logFormat;
+
+    public CustomLogFilePatternReceiver() {
         super();
+
     }
-    
-    public CustomLogFilePatternReceiver(String Log4jExpression ){
-        super();
+
+    public CustomLogFilePatternReceiver(String Log4jExpression, String fileURL) {
+        this();
         this.Log4jExpression = Log4jExpression;
         this.initialize();
+        try {
+            regexpPattern = Pattern.compile(regexp);
+            exceptionPattern = Pattern.compile(EXCEPTION_PATTERN);
+        } catch (PatternSyntaxException pse) {
+            // shouldn't happen
+        }
     }
-    
-    @Override
+
     protected void initialize() {
 
         // check the format Expression, if it's log4j's, use custom flow
-        if (StringUtils.isBlank(Log4jExpression)) {
-           this.setLogFormat(this.translateExpression(Log4jExpression));
+        if (!StringUtils.isBlank(Log4jExpression)) {
+            this.setLogFormat(this.translateExpression(Log4jExpression));
         }
-        
-        super.initialize();
+
+        // use reflection to get regexp
+        Class<?> superClass = this.getClass().getSuperclass();
+        try {
+            Field fields = superClass.getDeclaredField(REGEXP);
+            fields.setAccessible(true);
+            regexp = fields.get(this).toString();
+            logger.info("regexp:" + regexp);
+        } catch (Exception e) {
+            // TODO throw one exception
+        }
     }
 
     /**
@@ -255,4 +282,45 @@ public class CustomLogFilePatternReceiver extends LogFilePatternReceiver {
         }
         return result.toString();
     }
+
+    public String getRegexp() {
+        return regexp;
+    }
+
+    public void setRegexp(String regexp) {
+        this.regexp = regexp;
+    }
+
+    public Pattern getRegexpPattern() {
+        return regexpPattern;
+    }
+
+    public void setRegexpPattern(Pattern regexpPattern) {
+        this.regexpPattern = regexpPattern;
+    }
+
+    public Pattern getExceptionPattern() {
+        return exceptionPattern;
+    }
+
+    public void setExceptionPattern(Pattern exceptionPattern) {
+        this.exceptionPattern = exceptionPattern;
+    }
+
+    public String getTimestampFormat() {
+        return timestampFormat;
+    }
+
+    public void setTimestampFormat(String timestampFormat) {
+        this.timestampFormat = timestampFormat;
+    }
+
+    public String getLogFormat() {
+        return logFormat;
+    }
+
+    public void setLogFormat(String logFormat) {
+        this.logFormat = logFormat;
+    }
+
 }
