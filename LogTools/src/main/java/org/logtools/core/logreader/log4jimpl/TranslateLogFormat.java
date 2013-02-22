@@ -8,14 +8,6 @@ import org.apache.log4j.Logger;
 
 /**
  * 
- * Notes:
- * 1, after reading LogFilePatternReceiver, I found I need override process and
- * post method <br>
- * if I ONlY want to convert logEvent to logEntry, I don't need to override
- * process <br>
- * but if I need to get more information,like log is which line in file, I need
- * override the process <br>
- * 
  * IMPROVE:
  * support some special case,like two timestamp
  * 

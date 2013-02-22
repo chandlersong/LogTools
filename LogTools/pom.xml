@@ -76,6 +76,11 @@
 		    <scope>system</scope>  
 		    <systemPath>${basedir}/lib/apache-chainsaw-2.1.0-SNAPSHOT.jar</systemPath>  
 		</dependency> 
+		<dependency>
+	      <groupId>log4j</groupId>
+	      <artifactId>apache-log4j-extras</artifactId>
+	      <version>1.1</version>
+	    </dependency>
 		<!-- chainsaw end  -->
 	    <dependency>
 	      <groupId>junit</groupId>
