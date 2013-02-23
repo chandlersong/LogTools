@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.logtools.Const;
+import org.logtools.Exception.ParseLogException;
 import org.logtools.core.domain.LogEntry;
 import org.logtools.core.domain.log4jimpl.Log4jLogEntry;
 import org.logtools.core.logprocess.AbsLogProcess;
@@ -102,8 +103,9 @@ public class Log4JParserProcess extends AbsLogProcess implements
         try {
             process(new BufferedReader(new FileReader(file)));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            ParseLogException ex = new ParseLogException();
+            e.initCause(e);
+            throw ex;
         }
     }
 
@@ -157,7 +159,6 @@ public class Log4JParserProcess extends AbsLogProcess implements
                     if (currentMap.size() > 0) {
                         entry = buildEntry();
                         if (entry != null) {
-                            // TODO
                             post(entry);
 
                         }
@@ -175,7 +176,6 @@ public class Log4JParserProcess extends AbsLogProcess implements
         // process last event if one exists
         entry = buildEntry();
         if (entry != null) {
-            // TODO
             post(entry);
 
         }

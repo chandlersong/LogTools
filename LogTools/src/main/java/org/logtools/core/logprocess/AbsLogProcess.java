@@ -18,11 +18,6 @@ public abstract class AbsLogProcess implements LogProcess {
         filters = new ArrayList<LogFilter>();
     }
 
-    public void process(File logFile) {
-        // TODO Auto-generated method stub
-
-    }
-
     public void process(File[] logFile) {
         // TODO Auto-generated method stub
 
