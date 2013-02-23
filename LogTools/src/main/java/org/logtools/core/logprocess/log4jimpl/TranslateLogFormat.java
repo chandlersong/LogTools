@@ -1,4 +1,4 @@
-package org.logtools.core.logreader.log4jimpl;
+package org.logtools.core.logprocess.log4jimpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,22 +14,12 @@ import org.apache.log4j.Logger;
  * @author Chandler.Song
  * 
  */
-public class TranslateLogFormat {
+public class TranslateLogFormat implements Log4jConst {
 
     private static Logger logger = Logger
             .getLogger(TranslateLogFormat.class);
-    /* copy from super class */
 
-    public static final String LOGGER = "LOGGER";
-    public static final String MESSAGE = "MESSAGE";
-    public static final String TIMESTAMP = "TIMESTAMP";
-    public static final String NDC = "NDC"; // nested diagnostic context
-    public static final String LEVEL = "LEVEL";
-    public static final String THREAD = "THREAD";
-    public static final String CLASS = "CLASS";
-    public static final String FILE = "FILE";
-    public static final String LINE = "LINE";
-    public static final String METHOD = "METHOD";
+    /* copy from super class */
 
     /* copy from super class */
 

@@ -1,4 +1,4 @@
-package org.logtools.core.domain.log4jimpl;
+package org.logtools.core.domain;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,16 +8,16 @@ import java.util.Vector;
 import org.logtools.core.domain.LogDocument;
 import org.logtools.core.domain.LogEntry;
 
-public class Log4jLogDocument implements LogDocument {
+public class CommonDocument implements LogDocument {
 
     private static final Integer DEFAULT_SIZE = 100;
     private Vector<LogEntry> logs;
 
-    public Log4jLogDocument() {
+    public CommonDocument() {
         this(DEFAULT_SIZE);
     }
 
-    public Log4jLogDocument(Integer size) {
+    public CommonDocument(Integer size) {
         logs = new Vector<LogEntry>(size);
     }
 

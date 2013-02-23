@@ -1,4 +1,4 @@
-package org.logtools.core.domain.log4jimpl;
+package org.logtools.core.domain;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -9,7 +9,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.logtools.core.domain.LogEntry;
+import org.logtools.core.domain.log4jimpl.Log4jLogEntry;
 
 /**
  * Test Log4jLogDocument
@@ -22,14 +22,14 @@ public class TestLogDocument {
 
     private Random r;
 
-    private Log4jLogDocument logDocument;
+    private CommonDocument logDocument;
 
     private LogEntry[] logs;
 
     @Before
     public void initial() {
 
-        logDocument = new Log4jLogDocument();
+        logDocument = new CommonDocument();
         logs = new LogEntry[100];
         r = new Random();
 

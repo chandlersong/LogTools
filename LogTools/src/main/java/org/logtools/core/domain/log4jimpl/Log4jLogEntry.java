@@ -5,25 +5,25 @@ import java.util.Date;
 import org.logtools.core.domain.LogEntry;
 
 /**
- * TODO try to use LogFilePatternReceiver  to parse
+ * TODO try to use LogFilePatternReceiver to parse
+ * 
  * @author Chandler.Song
- *
+ * 
  */
 public class Log4jLogEntry implements LogEntry {
 
     private Integer lineNumber;
-    private String  threadInfo;
-    private Date    time;
-    private String  message;
-    private String  level;
-    private String  catalog;
-    
-    public Log4jLogEntry(){
-        
+    private String threadInfo;
+    private Date time;
+    private String message;
+    private String level;
+    private String catalog;
+    private String Line;
+
+    public Log4jLogEntry() {
+
     }
-    
-    
-    
+
     public Log4jLogEntry(Integer lineNumber, String threadInfo, Date time,
             String message, String level, String catalog) {
         super();
@@ -34,8 +34,6 @@ public class Log4jLogEntry implements LogEntry {
         this.level = level;
         this.catalog = catalog;
     }
-
-
 
     public void setLineNumber(Integer lineNumber) {
         this.lineNumber = lineNumber;
@@ -99,6 +97,14 @@ public class Log4jLogEntry implements LogEntry {
     public String get(String pattern) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public String getLine() {
+        return Line;
+    }
+
+    public void setLine(String line) {
+        Line = line;
     }
 
 }

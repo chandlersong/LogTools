@@ -1,9 +1,10 @@
-package org.logtools.core.logreader.log4jimpl;
+package org.logtools.core.logprocess.log4jimpl;
 
 import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.logtools.core.logprocess.log4jimpl.TranslateLogFormat;
 
 public class TranslateLogFormatTest {
 
