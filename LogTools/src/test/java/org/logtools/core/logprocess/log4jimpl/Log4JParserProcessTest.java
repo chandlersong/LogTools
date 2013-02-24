@@ -60,8 +60,11 @@ public class Log4JParserProcessTest {
         Assert.assertEquals("info log", firstEntry.getMessage());
         Assert.assertEquals("INFO", firstEntry.getLevel());
         Assert.assertEquals("main", firstEntry.getThreadInfo());
+        Assert.assertEquals("13", firstEntry.getLine());
         Assert.assertEquals(DateUtils.parseDate("2013-02-18 23:29:26.125",
                 "yyyy-MM-dd HH:mm:ss.SSS"), firstEntry.getTime());
+        Assert.assertEquals("simple.log", firstEntry.getFileName());
+        Assert.assertEquals("1", firstEntry.getLineInFile().get(0));
 
         LogEntry secondEntry = entrylist.get(1);
         Assert.assertEquals("org.logtools.utils.LogGenerator",
@@ -69,8 +72,11 @@ public class Log4JParserProcessTest {
         Assert.assertEquals("error log", secondEntry.getMessage());
         Assert.assertEquals("ERROR", secondEntry.getLevel());
         Assert.assertEquals("main", secondEntry.getThreadInfo());
+        Assert.assertEquals("main", secondEntry.getThreadInfo());
+        Assert.assertEquals("15", secondEntry.getLine());
         Assert.assertEquals(DateUtils.parseDate("2013-02-18 23:29:26.130",
                 "yyyy-MM-dd HH:mm:ss.SSS"), secondEntry.getTime());
-
+        Assert.assertEquals("simple.log", secondEntry.getFileName());
+        Assert.assertEquals("2", secondEntry.getLineInFile().get(0));
     }
 }

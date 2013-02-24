@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.Vector;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -78,6 +79,7 @@ public class Log4JParserProcess extends AbsLogProcess implements
     private String regexp;
     private Pattern regexpPattern;
     private Pattern exceptionPattern;
+    private String currentFileName;
 
     Map<String, Object> currentMap;
     List<String> additionalLines;
@@ -101,6 +103,7 @@ public class Log4JParserProcess extends AbsLogProcess implements
 
     public void process(File file) {
         try {
+            currentFileName = file.getName();
             process(new BufferedReader(new FileReader(file)));
         } catch (IOException e) {
             ParseLogException ex = new ParseLogException();
@@ -125,9 +128,11 @@ public class Log4JParserProcess extends AbsLogProcess implements
 
         LogEntry entry = null;
 
+        int lineInFileNumber = 1;
         while ((line = bufferedReader.readLine()) != null) {
             // skip empty line entries
             eventMatcher = regexpPattern.matcher(line);
+
             if (line.trim().equals("")) {
                 continue;
             }
@@ -171,6 +176,18 @@ public class Log4JParserProcess extends AbsLogProcess implements
                     additionalLines.add(line);
                 }
             }
+
+            @SuppressWarnings("unchecked")
+            Vector<String> lineInFile = (Vector<String>) this.currentMap
+                    .get(LINE_IN_FILE);
+
+            if (lineInFile == null) {
+                lineInFile = new Vector<String>();
+            }
+
+            lineInFile.add(String.valueOf(lineInFileNumber));
+            this.currentMap.put(LINE_IN_FILE, lineInFile);
+            lineInFileNumber++;
         }
 
         // process last event if one exists
@@ -301,6 +318,10 @@ public class Log4JParserProcess extends AbsLogProcess implements
 
         line = (String) fieldMap.remove(LINE);
 
+        @SuppressWarnings("unchecked")
+        Vector<String> lineInFile = (Vector<String>) fieldMap
+                .remove(LINE_IN_FILE);
+
         Log4jLogEntry entry = new Log4jLogEntry();
         entry.setCatalog(catalog);
         entry.setLevel(level);
@@ -308,6 +329,8 @@ public class Log4JParserProcess extends AbsLogProcess implements
         entry.setMessage(message.toString());
         entry.setThreadInfo(threadName);
         entry.setTime(new Date(timeStamp));
+        entry.setFileName(currentFileName);
+        entry.setLineInFile(lineInFile);
         return entry;
     }
 
