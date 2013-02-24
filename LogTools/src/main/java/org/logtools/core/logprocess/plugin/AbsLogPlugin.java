@@ -1,5 +1,7 @@
 package org.logtools.core.logprocess.plugin;
 
+import java.io.File;
+
 import org.logtools.core.domain.LogEntry;
 import org.logtools.core.logprocess.LogPlugin;
 
@@ -13,19 +15,20 @@ public class AbsLogPlugin implements LogPlugin {
 
     }
 
-    public void executeAfterProcess() {
+    public void executeAfterProcess(File[] files) {
 
     }
 
-    public void executeBeforeProcess() {
+    public void executeBeforeProcess(File[] files) {
 
     }
 
-    public void executeAfterFinishOneFile() {
+    public void executeAfterFinishOneFile(File file) {
 
     }
 
-    public void executeBeforeFinishOneFile() {
+    public void executeBeforeFinishOneFile(File file) {
+
     }
 
 }

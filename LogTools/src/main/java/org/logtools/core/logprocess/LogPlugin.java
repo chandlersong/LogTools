@@ -1,5 +1,7 @@
 package org.logtools.core.logprocess;
 
+import java.io.File;
+
 import org.logtools.core.domain.LogEntry;
 
 /**
@@ -13,11 +15,11 @@ public interface LogPlugin {
 
     void executeAfterPostLogEntry(LogEntry entry);
 
-    void executeAfterProcess();
+    void executeAfterProcess(File[] files);
 
-    void executeBeforeProcess();
+    void executeBeforeProcess(File[] files);
 
-    void executeAfterFinishOneFile();
+    void executeAfterFinishOneFile(File file);
 
-    void executeBeforeFinishOneFile();
+    void executeBeforeFinishOneFile(File file);
 }

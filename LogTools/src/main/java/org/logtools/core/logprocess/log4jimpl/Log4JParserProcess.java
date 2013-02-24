@@ -101,10 +101,10 @@ public class Log4JParserProcess extends AbsLogProcess implements
         this.initialize(log4jregression);
     }
 
-    public void process(File file) {
+    public void doProcess(File file) {
         try {
             currentFileName = file.getName();
-            process(new BufferedReader(new FileReader(file)));
+            doProcess(new BufferedReader(new FileReader(file)));
         } catch (IOException e) {
             ParseLogException ex = new ParseLogException();
             e.initCause(e);
@@ -121,7 +121,7 @@ public class Log4JParserProcess extends AbsLogProcess implements
      * @param bufferedReader
      * @throws IOException
      */
-    protected void process(BufferedReader bufferedReader) throws IOException {
+    protected void doProcess(BufferedReader bufferedReader) throws IOException {
         Matcher eventMatcher;
         Matcher exceptionMatcher;
         String line;

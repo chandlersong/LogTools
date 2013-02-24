@@ -3,25 +3,73 @@ package org.logtools.core.logprocess;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import org.logtools.core.domain.LogEntry;
 
 public abstract class AbsLogProcess implements LogProcess {
 
-    List<LogPlugin> plugins;
+    private List<LogPlugin> plugins;
 
-    List<LogFilter> filters;
+    private List<LogFilter> filters;
+
+    private Boolean processOnefile = true;
 
     public AbsLogProcess() {
         plugins = new ArrayList<LogPlugin>();
         filters = new ArrayList<LogFilter>();
     }
 
-    public void process(File[] logFile) {
-        // TODO Auto-generated method stub
+    public void process(File[] logFiles) {
+        processOnefile = false;
+        for (LogPlugin plugin : plugins) {
+            plugin.executeBeforeProcess(logFiles);
+        }
+
+        // sort file by modify date
+        Arrays.sort(logFiles, new Comparator<File>() {
+
+            public int compare(File o1, File o2) {
+                return (int) (o1.lastModified() - o2.lastModified());
+            }
+
+        });
+
+        int filesLength = logFiles.length;
+        for (int i = 0; i < filesLength; i++) {
+            this.process(logFiles[i]);
+        }
+        for (LogPlugin plugin : plugins) {
+            plugin.executeAfterProcess(logFiles);
+        }
+    }
+
+    public void process(File logFile) {
+
+        if (processOnefile) {
+            for (LogPlugin plugin : plugins) {
+                plugin.executeBeforeProcess(new File[] { logFile });
+            }
+        }
+
+        for (LogPlugin plugin : plugins) {
+            plugin.executeBeforeFinishOneFile(logFile);
+        }
+        this.doProcess(logFile);
+        for (LogPlugin plugin : plugins) {
+            plugin.executeAfterFinishOneFile(logFile);
+        }
+
+        if (processOnefile) {
+            for (LogPlugin plugin : plugins) {
+                plugin.executeAfterProcess(new File[] { logFile });
+            }
+        }
 
     }
+
+    protected abstract void doProcess(File file);
 
     public abstract void setExcepression(String expression);
 
