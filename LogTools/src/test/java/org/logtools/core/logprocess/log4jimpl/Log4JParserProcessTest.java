@@ -79,4 +79,28 @@ public class Log4JParserProcessTest {
         Assert.assertEquals("simple.log", secondEntry.getFileName());
         Assert.assertEquals("2", secondEntry.getLineInFile().get(0));
     }
+
+    @Test
+    public void testProcessSimpleExceptionLogFile() throws ParseException {
+        Log4JParserProcess praser = new Log4JParserProcess(
+                TestConst.Log4jFormat);
+        GenerateLogDocumentPlugin plugin = new GenerateLogDocumentPlugin();
+        praser.addPlugin(plugin);
+
+        final File simpleErrorLogFile = new File(
+                "src/test/resources/logfile/simpleError.log");
+
+        praser.process(simpleErrorLogFile);
+
+        LogDocument logdoc = plugin.getDoc();
+        List<LogEntry> entrylist = logdoc.listAllEntry();
+        LogEntry errorEntry = entrylist.get(1);
+        Assert.assertEquals(23, errorEntry.getTraceLog().size());
+        Assert.assertEquals(25, errorEntry.getLineInFile().size());
+        Assert.assertTrue(errorEntry.isException());
+
+        LogEntry normalEntry = entrylist.get(0);
+        Assert.assertFalse(normalEntry.isException());
+        Assert.assertNull(normalEntry.getTraceLog());
+    }
 }

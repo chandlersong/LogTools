@@ -1,7 +1,7 @@
 package org.logtools.core.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
 
 public class CommonLogEntry implements LogEntry {
 
@@ -12,8 +12,8 @@ public class CommonLogEntry implements LogEntry {
     private String catalog;
     private String line;
     private String fileName;
-    private Vector<String> lineInFile;
-    private Vector<String> traceLog;
+    private ArrayList<String> lineInFile;
+    private ArrayList<String> traceLog;
 
     public CommonLogEntry() {
 
@@ -21,7 +21,7 @@ public class CommonLogEntry implements LogEntry {
 
     public CommonLogEntry(String threadInfo, Date time, String message,
             String level, String catalog, String line, String fileName,
-            Vector<String> lineInFile, Vector<String> traceLog) {
+            ArrayList<String> lineInFile, ArrayList<String> traceLog) {
         super();
         this.threadInfo = threadInfo;
         this.time = time;
@@ -90,19 +90,19 @@ public class CommonLogEntry implements LogEntry {
         this.fileName = fileName;
     }
 
-    public Vector<String> getLineInFile() {
+    public ArrayList<String> getLineInFile() {
         return lineInFile;
     }
 
-    public void setLineInFile(Vector<String> lineInFile) {
+    public void setLineInFile(ArrayList<String> lineInFile) {
         this.lineInFile = lineInFile;
     }
 
-    public Vector<String> getTraceLog() {
+    public ArrayList<String> getTraceLog() {
         return traceLog;
     }
 
-    public void setTraceLog(Vector<String> traceLog) {
+    public void setTraceLog(ArrayList<String> traceLog) {
         this.traceLog = traceLog;
     }
 
@@ -111,7 +111,7 @@ public class CommonLogEntry implements LogEntry {
     }
 
     public Boolean isException() {
-        return !this.traceLog.isEmpty();
+        return this.traceLog != null && !this.traceLog.isEmpty();
     }
 
     @Override

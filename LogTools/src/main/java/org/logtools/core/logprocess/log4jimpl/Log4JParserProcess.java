@@ -6,13 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.Vector;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -178,11 +178,11 @@ public class Log4JParserProcess extends AbsLogProcess implements
             }
 
             @SuppressWarnings("unchecked")
-            Vector<String> lineInFile = (Vector<String>) this.currentMap
+            ArrayList<String> lineInFile = (ArrayList<String>) this.currentMap
                     .get(LINE_IN_FILE);
 
             if (lineInFile == null) {
-                lineInFile = new Vector<String>();
+                lineInFile = new ArrayList<String>();
             }
 
             lineInFile.add(String.valueOf(lineInFileNumber));
@@ -243,9 +243,6 @@ public class Log4JParserProcess extends AbsLogProcess implements
         // a logger must exist at a minimum for the event to be processed
         if (!fieldMap.containsKey(LOGGER)) {
             fieldMap.put(LOGGER, "Unknown");
-        }
-        if (exception == null) {
-            exception = emptyException;
         }
 
         String catalog = null;
@@ -319,7 +316,7 @@ public class Log4JParserProcess extends AbsLogProcess implements
         line = (String) fieldMap.remove(LINE);
 
         @SuppressWarnings("unchecked")
-        Vector<String> lineInFile = (Vector<String>) fieldMap
+        ArrayList<String> lineInFile = (ArrayList<String>) fieldMap
                 .remove(LINE_IN_FILE);
 
         Log4jLogEntry entry = new Log4jLogEntry();
@@ -331,6 +328,12 @@ public class Log4JParserProcess extends AbsLogProcess implements
         entry.setTime(new Date(timeStamp));
         entry.setFileName(currentFileName);
         entry.setLineInFile(lineInFile);
+
+        // messages are listed before exceptions in additionallines
+        if (additionalLines.size() > 0 && exception.length > 0) {
+            entry.setTraceLog(new ArrayList<String>(Arrays.asList(exception)));
+        }
+
         return entry;
     }
 

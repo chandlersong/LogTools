@@ -1,9 +1,9 @@
 package org.logtools.core.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.Vector;
 
 import junit.framework.Assert;
 
@@ -45,8 +45,8 @@ public class TestLogDocument {
                     RandomStringUtils.randomAlphabetic(10),
                     RandomStringUtils.randomAlphabetic(10),
                     RandomStringUtils.randomAlphabetic(10),
-                    new Vector<String>(),
-                    new Vector<String>());
+                    new ArrayList<String>(),
+                    new ArrayList<String>());
             logs[i] = log;
             logDocument.addLine(log);
         }
