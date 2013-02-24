@@ -3,6 +3,7 @@ package org.logtools.core.domain;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.Vector;
 
 import junit.framework.Assert;
 
@@ -36,12 +37,16 @@ public class TestLogDocument {
         /* Perpare Test Data */
         LogEntry log;
         for (int i = 0; i < 100; i++) {
-            log = new Log4jLogEntry(r.nextInt(),
+            log = new Log4jLogEntry(
                     RandomStringUtils.randomAlphabetic(10),
                     new Date(r.nextLong()),
                     RandomStringUtils.randomAlphabetic(10),
                     RandomStringUtils.randomAlphabetic(10),
-                    RandomStringUtils.randomAlphabetic(10));
+                    RandomStringUtils.randomAlphabetic(10),
+                    RandomStringUtils.randomAlphabetic(10),
+                    RandomStringUtils.randomAlphabetic(10),
+                    new Vector<String>(),
+                    new Vector<String>());
             logs[i] = log;
             logDocument.addLine(log);
         }

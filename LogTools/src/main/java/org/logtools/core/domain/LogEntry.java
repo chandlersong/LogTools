@@ -1,6 +1,7 @@
 package org.logtools.core.domain;
 
 import java.util.Date;
+import java.util.Vector;
 
 /**
  * represent one line log with timestamp, <br>
@@ -30,13 +31,15 @@ public interface LogEntry {
      * 
      * @return
      */
-    public Integer getLineNumber();
+    public Vector<String> getLineInFile();
 
-    public String getLine();
+    public String getFileName();
 
     public Boolean isException();
 
-    public Boolean isMultiLines();
+    public Vector<String> getTraceLog();
+
+    public String getLine();
 
     public String getThreadInfo();
 
