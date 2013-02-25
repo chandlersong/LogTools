@@ -119,8 +119,9 @@ public class LogFileWriter implements LogWriter {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                OutputResultException ex = new OutputResultException();
+                ex.initCause(e);
+                throw ex;
             }
         }
 
