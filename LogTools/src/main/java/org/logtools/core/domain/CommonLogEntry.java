@@ -1,3 +1,4 @@
+
 package org.logtools.core.domain;
 
 import java.util.ArrayList;
@@ -6,22 +7,31 @@ import java.util.Date;
 public class CommonLogEntry implements LogEntry {
 
     private String threadInfo;
+
     private Date time;
+
     private String message;
+
     private String level;
+
     private String catalog;
+
     private String line;
+
     private String fileName;
+
     private ArrayList<String> lineInFile;
+
     private ArrayList<String> traceLog;
+
+    private String content;
 
     public CommonLogEntry() {
 
     }
 
-    public CommonLogEntry(String threadInfo, Date time, String message,
-            String level, String catalog, String line, String fileName,
-            ArrayList<String> lineInFile, ArrayList<String> traceLog) {
+    public CommonLogEntry(String threadInfo, Date time, String message, String level, String catalog, String line,
+            String fileName, ArrayList<String> lineInFile, ArrayList<String> traceLog) {
         super();
         this.threadInfo = threadInfo;
         this.time = time;
@@ -114,12 +124,19 @@ public class CommonLogEntry implements LogEntry {
         return this.traceLog != null && !this.traceLog.isEmpty();
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     @Override
     public String toString() {
-        return "CommonLogEntry [threadInfo=" + threadInfo + ", time=" + time
-                + ", message=" + message + ", level=" + level + ", catalog="
-                + catalog + ", line=" + line + ", fileName=" + fileName
-                + ", lineInFile=" + lineInFile + ", traceLog=" + traceLog + "]";
+        return "CommonLogEntry [threadInfo=" + threadInfo + ", time=" + time + ", message=" + message + ", level="
+                + level + ", catalog=" + catalog + ", line=" + line + ", fileName=" + fileName + ", lineInFile="
+                + lineInFile + ", traceLog=" + traceLog + "]";
     }
 
     @Override
@@ -127,18 +144,14 @@ public class CommonLogEntry implements LogEntry {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((catalog == null) ? 0 : catalog.hashCode());
-        result = prime * result
-                + ((fileName == null) ? 0 : fileName.hashCode());
+        result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
         result = prime * result + ((level == null) ? 0 : level.hashCode());
         result = prime * result + ((line == null) ? 0 : line.hashCode());
-        result = prime * result
-                + ((lineInFile == null) ? 0 : lineInFile.hashCode());
+        result = prime * result + ((lineInFile == null) ? 0 : lineInFile.hashCode());
         result = prime * result + ((message == null) ? 0 : message.hashCode());
-        result = prime * result
-                + ((threadInfo == null) ? 0 : threadInfo.hashCode());
+        result = prime * result + ((threadInfo == null) ? 0 : threadInfo.hashCode());
         result = prime * result + ((time == null) ? 0 : time.hashCode());
-        result = prime * result
-                + ((traceLog == null) ? 0 : traceLog.hashCode());
+        result = prime * result + ((traceLog == null) ? 0 : traceLog.hashCode());
         return result;
     }
 
@@ -150,7 +163,7 @@ public class CommonLogEntry implements LogEntry {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CommonLogEntry other = (CommonLogEntry) obj;
+        CommonLogEntry other = (CommonLogEntry)obj;
         if (catalog == null) {
             if (other.catalog != null)
                 return false;
@@ -198,5 +211,4 @@ public class CommonLogEntry implements LogEntry {
             return false;
         return true;
     }
-
 }

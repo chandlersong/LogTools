@@ -13,4 +13,5 @@ public interface Log4jConst {
     public static final String LINE = "LINE";
     public static final String METHOD = "METHOD";
     public static final String LINE_IN_FILE = "LINE_IN_FILE";
+    public static final String CONTENT = "CONTENT";
 }
