@@ -3,6 +3,7 @@ package org.logtools.core.logprocess.plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
@@ -24,7 +25,7 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
 
     private static final String DEFAULT_FILE_NAME = "ExecuteTimeFilter.txt";
 
-    private LogEntry previousLogEntry;
+    private Map<String, LogEntry> previousLogEntryMap;
 
     private int timeBarrier = 500;
 
@@ -42,6 +43,16 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
 
     @Override
     public void executeAfterPostLogEntry(LogEntry entry) {
+        // for concurrent thread
+        String threadInfo = entry.getThreadInfo();
+        LogEntry previousLogEntry = previousLogEntryMap.get(threadInfo);
+        previousLogEntryMap.put(threadInfo, entry);
+
+        // no previous log
+        if (previousLogEntry == null) {
+            return;
+        }
+
         Long delta = entry.getTime().getTime() - previousLogEntry.getTime().getTime();
         previousLogEntry = entry;
 
