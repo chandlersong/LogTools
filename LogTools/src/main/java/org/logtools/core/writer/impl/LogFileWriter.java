@@ -12,7 +12,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.logtools.Const;
-import org.logtools.Exception.OutputResultException;
+import org.logtools.Exception.ExportResultException;
 import org.logtools.core.domain.LogEntry;
 import org.logtools.core.writer.LogWriter;
 
@@ -80,7 +80,7 @@ public class LogFileWriter implements LogWriter {
             try {
                 alarm.wait();
             } catch (InterruptedException e) {
-                OutputResultException ex = new OutputResultException();
+                ExportResultException ex = new ExportResultException();
                 ex.initCause(e);
                 throw ex;
             }
@@ -119,7 +119,7 @@ public class LogFileWriter implements LogWriter {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                OutputResultException ex = new OutputResultException();
+                ExportResultException ex = new ExportResultException();
                 ex.initCause(e);
                 throw ex;
             }
@@ -148,11 +148,11 @@ public class LogFileWriter implements LogWriter {
             try {
                 cyclicbarrier.await();
             } catch (InterruptedException e) {
-                OutputResultException ex = new OutputResultException();
+                ExportResultException ex = new ExportResultException();
                 ex.initCause(e);
                 throw ex;
             } catch (BrokenBarrierException e) {
-                OutputResultException ex = new OutputResultException();
+                ExportResultException ex = new ExportResultException();
                 ex.initCause(e);
                 throw ex;
             }
@@ -170,11 +170,11 @@ public class LogFileWriter implements LogWriter {
                 stringbuilder.append(Const.NEW_LINE);
                 FileUtils.writeStringToFile(outputFile, stringbuilder.toString(), true);
             } catch (InterruptedException e) {
-                OutputResultException ex = new OutputResultException();
+                ExportResultException ex = new ExportResultException();
                 ex.initCause(e);
                 throw ex;
             } catch (IOException e) {
-                OutputResultException ex = new OutputResultException();
+                ExportResultException ex = new ExportResultException();
                 ex.initCause(e);
                 throw ex;
             }

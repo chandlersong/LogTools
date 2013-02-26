@@ -1,25 +1,25 @@
 package org.logtools.Exception;
 
-public class OutputResultException extends RuntimeException {
+public class ExportResultException extends RuntimeException {
 
-    public OutputResultException() {
+    public ExportResultException() {
         super();
     }
 
-    public OutputResultException(String message, Throwable cause,
+    public ExportResultException(String message, Throwable cause,
             boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
-    public OutputResultException(String message, Throwable cause) {
+    public ExportResultException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public OutputResultException(String message) {
+    public ExportResultException(String message) {
         super(message);
     }
 
-    public OutputResultException(Throwable cause) {
+    public ExportResultException(Throwable cause) {
         super(cause);
     }
 
