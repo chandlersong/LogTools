@@ -3,6 +3,7 @@ package org.logtools.core.logprocess.plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -71,6 +72,8 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
         this.perpareExportFile();
         writer = new LogFileWriter(exportFile);
         writer.start();
+
+        previousLogEntryMap = new HashMap<String, LogEntry>();
     }
 
     private void exportLog(LogEntry current, LogEntry pervious, long delta) {
