@@ -1,3 +1,4 @@
+
 package org.logtools.core.logprocess;
 
 import java.io.File;
@@ -31,7 +32,7 @@ public abstract class AbsLogProcess implements LogProcess {
         Arrays.sort(logFiles, new Comparator<File>() {
 
             public int compare(File o1, File o2) {
-                return (int) (o1.lastModified() - o2.lastModified());
+                return (int)(o1.lastModified() - o2.lastModified());
             }
 
         });
@@ -43,13 +44,17 @@ public abstract class AbsLogProcess implements LogProcess {
         for (LogPlugin plugin : plugins) {
             plugin.executeAfterProcess(logFiles);
         }
+
+        processOnefile = true;
     }
 
     public void process(File logFile) {
 
         if (processOnefile) {
             for (LogPlugin plugin : plugins) {
-                plugin.executeBeforeProcess(new File[] { logFile });
+                plugin.executeBeforeProcess(new File[] {
+                    logFile
+                });
             }
         }
 
@@ -63,7 +68,9 @@ public abstract class AbsLogProcess implements LogProcess {
 
         if (processOnefile) {
             for (LogPlugin plugin : plugins) {
-                plugin.executeAfterProcess(new File[] { logFile });
+                plugin.executeAfterProcess(new File[] {
+                    logFile
+                });
             }
         }
 
@@ -117,6 +124,22 @@ public abstract class AbsLogProcess implements LogProcess {
             }
         }
         return result;
+    }
+
+    public List<LogPlugin> getPlugins() {
+        return plugins;
+    }
+
+    public void setPlugins(List<LogPlugin> plugins) {
+        this.plugins = plugins;
+    }
+
+    public List<LogFilter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<LogFilter> filters) {
+        this.filters = filters;
     }
 
 }
