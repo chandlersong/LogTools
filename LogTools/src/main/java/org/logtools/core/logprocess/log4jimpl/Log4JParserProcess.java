@@ -1,4 +1,3 @@
-
 package org.logtools.core.logprocess.log4jimpl;
 
 import java.io.BufferedReader;
@@ -28,10 +27,13 @@ import org.logtools.core.domain.log4jimpl.Log4jLogEntry;
 import org.logtools.core.logprocess.AbsLogProcess;
 
 /**
- * this class refer to LogFilePatternReceiver， it just copy the prase feature to here Notes: 1, after reading LogFilePatternReceiver, I
+ * this class refer to LogFilePatternReceiver， it just copy the prase feature to
+ * here Notes: 1, after reading LogFilePatternReceiver, I
  * found I need override process and post method <br>
- * if I ONlY want to convert logEvent to logEntry, I don't need to override process <br>
- * but if I need to get more information,like log is which line in file, I need override the process <br>
+ * if I ONlY want to convert logEvent to logEntry, I don't need to override
+ * process <br>
+ * but if I need to get more information,like log is which line in file, I need
+ * override the process <br>
  * 
  * @author Chandler.Song
  */
@@ -70,7 +72,7 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
     private String timestampPatternText;
 
     private final String[] emptyException = new String[] {
-        ""
+            ""
     };
 
     private boolean appendNonMatches = true;
@@ -99,9 +101,8 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
 
     List<String> additionalLines;
 
-    public Log4JParserProcess(String log4jregression) {
+    public Log4JParserProcess() {
         super();
-
         keywords.add(TIMESTAMP);
         keywords.add(LOGGER);
         keywords.add(LEVEL);
@@ -112,7 +113,10 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
         keywords.add(METHOD);
         keywords.add(MESSAGE);
         keywords.add(NDC);
+    }
 
+    public Log4JParserProcess(String log4jregression) {
+        this();
         this.initialize(log4jregression);
     }
 
@@ -128,7 +132,8 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
     }
 
     /**
-     * Read, parse and optionally tail the log file, converting entries into logging events. A runtimeException is thrown if the logFormat
+     * Read, parse and optionally tail the log file, converting entries into
+     * logging events. A runtimeException is thrown if the logFormat
      * pattern is malformed.
      * 
      * @param bufferedReader
@@ -172,7 +177,7 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
                 if (appendNonMatches) {
                     // hold on to the previous time, so we can do our best to
                     // preserve time-based ordering if the event is a non-match
-                    String lastTime = (String)currentMap.get(TIMESTAMP);
+                    String lastTime = (String) currentMap.get(TIMESTAMP);
                     // build an event from the previous match (held in current
                     // map)
                     if (currentMap.size() > 0) {
@@ -193,7 +198,7 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
             }
 
             @SuppressWarnings("unchecked")
-            ArrayList<String> lineInFile = (ArrayList<String>)this.currentMap.get(LINE_IN_FILE);
+            ArrayList<String> lineInFile = (ArrayList<String>) this.currentMap.get(LINE_IN_FILE);
 
             if (lineInFile == null) {
                 lineInFile = new ArrayList<String>();
@@ -228,7 +233,7 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
 
         // messages are listed before exceptions in additionallines
         if (additionalLines.size() > 0 && exception.length > 0) {
-            currentMap.put(MESSAGE, buildMessage((String)currentMap.get(MESSAGE), exceptionLine));
+            currentMap.put(MESSAGE, buildMessage((String) currentMap.get(MESSAGE), exceptionLine));
         }
         LogEntry entry = convertToEntery(currentMap, exception);
         currentMap.clear();
@@ -269,7 +274,7 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
 
         if ((dateFormat != null) && fieldMap.containsKey(TIMESTAMP)) {
             try {
-                timeStamp = dateFormat.parse((String)fieldMap.remove(TIMESTAMP)).getTime();
+                timeStamp = dateFormat.parse((String) fieldMap.remove(TIMESTAMP)).getTime();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -284,14 +289,14 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
             message = "";
         }
 
-        level = (String)fieldMap.remove(LEVEL);
+        level = (String) fieldMap.remove(LEVEL);
         Level levelImpl;
         if (level == null) {
             levelImpl = Level.DEBUG;
         } else {
             // first try to resolve against custom level definition map, then
             // fall back to regular levels
-            levelImpl = (Level)customLevelDefinitionMap.get(level);
+            levelImpl = (Level) customLevelDefinitionMap.get(level);
             if (levelImpl == null) {
                 levelImpl = Level.toLevel(level.trim());
                 if (!level.equals(levelImpl.toString())) {
@@ -308,22 +313,22 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
             }
         }
 
-        threadName = (String)fieldMap.remove(THREAD);
+        threadName = (String) fieldMap.remove(THREAD);
 
-        ndc = (String)fieldMap.remove(NDC);
+        ndc = (String) fieldMap.remove(NDC);
 
-        className = (String)fieldMap.remove(CLASS);
+        className = (String) fieldMap.remove(CLASS);
 
-        methodName = (String)fieldMap.remove(METHOD);
+        methodName = (String) fieldMap.remove(METHOD);
 
-        eventFileName = (String)fieldMap.remove(FILE);
+        eventFileName = (String) fieldMap.remove(FILE);
 
-        line = (String)fieldMap.remove(LINE);
+        line = (String) fieldMap.remove(LINE);
 
-        content = (String)fieldMap.remove(CONTENT);
+        content = (String) fieldMap.remove(CONTENT);
 
         @SuppressWarnings("unchecked")
-        ArrayList<String> lineInFile = (ArrayList<String>)fieldMap.remove(LINE_IN_FILE);
+        ArrayList<String> lineInFile = (ArrayList<String>) fieldMap.remove(LINE_IN_FILE);
 
         Log4jLogEntry entry = new Log4jLogEntry();
         entry.setCatalog(catalog);
@@ -398,13 +403,15 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
         }
 
         /*
-         * we're using a treemap, so the index will be used as the key to ensure keywords are ordered correctly examine pattern, adding
-         * keywords to an index-based map patterns can contain only one of these per entry...properties are the only 'keyword' that can
+         * we're using a treemap, so the index will be used as the key to ensure
+         * keywords are ordered correctly examine pattern, adding
+         * keywords to an index-based map patterns can contain only one of these
+         * per entry...properties are the only 'keyword' that can
          * occur multiple times in an entry
          */
         Iterator<String> iter = keywords.iterator();
         while (iter.hasNext()) {
-            String keyword = (String)iter.next();
+            String keyword = (String) iter.next();
             int index2 = newPattern.indexOf(keyword);
             if (index2 > -1) {
                 buildingKeywords.add(keyword);
@@ -440,7 +447,7 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
         newPattern = newPattern.replaceAll(Pattern.quote(PATTERN_WILDCARD), REGEXP_DEFAULT_WILDCARD);
         // use buildingKeywords here to ensure correct order
         for (int i = 0; i < buildingKeywords.size(); i++) {
-            String keyword = (String)buildingKeywords.get(i);
+            String keyword = (String) buildingKeywords.get(i);
             // make the final keyword greedy (we're assuming it's the message)
             if (i == (buildingKeywords.size() - 1)) {
                 newPattern = singleReplace(newPattern, String.valueOf(i), GREEDY_GROUP);
@@ -541,7 +548,8 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
     }
 
     /**
-     * Some perl5 characters may occur in the log file format. Escape these characters to prevent parsing errors.
+     * Some perl5 characters may occur in the log file format. Escape these
+     * characters to prevent parsing errors.
      * 
      * @param input
      * @return string
@@ -614,18 +622,19 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
     /**
      * Walk the additionalLines list, looking for the EXCEPTION_PATTERN.
      * <p>
-     * Return the index of the first matched line (the match may be the 1st line of an exception)
+     * Return the index of the first matched line (the match may be the 1st line
+     * of an exception)
      * <p>
      * Assumptions: <br>
      * - the additionalLines list may contain both message and exception lines<br>
-     * - message lines are added to the additionalLines list and then exception lines (all message lines occur in the list prior to all
-     * exception lines)
+     * - message lines are added to the additionalLines list and then exception
+     * lines (all message lines occur in the list prior to all exception lines)
      * 
      * @return -1 if no exception line exists, line number otherwise
      */
     private int getExceptionLine() {
         for (int i = 0; i < additionalLines.size(); i++) {
-            Matcher exceptionMatcher = exceptionPattern.matcher((String)additionalLines.get(i));
+            Matcher exceptionMatcher = exceptionPattern.matcher((String) additionalLines.get(i));
             if (exceptionMatcher.matches()) {
                 return i;
             }
@@ -634,11 +643,13 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
     }
 
     /**
-     * Combine all exception lines occuring in the additionalLines list into a String array
+     * Combine all exception lines occuring in the additionalLines list into a
+     * String array
      * <p>
      * (all entries equal to or greater than the exceptionLine index)
      * 
-     * @param exceptionLine index of first exception line
+     * @param exceptionLine
+     *            index of first exception line
      * @return exception
      */
     private String[] buildException(int exceptionLine) {
@@ -647,19 +658,23 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
         }
         String[] exception = new String[additionalLines.size() - exceptionLine - 1];
         for (int i = 0; i < exception.length; i++) {
-            exception[i] = (String)additionalLines.get(i + exceptionLine);
+            exception[i] = (String) additionalLines.get(i + exceptionLine);
         }
         return exception;
     }
 
     /**
-     * Combine all message lines occuring in the additionalLines list, adding a newline character between each line
+     * Combine all message lines occuring in the additionalLines list, adding a
+     * newline character between each line
      * <p>
-     * the event will already have a message - combine this message with the message lines in the additionalLines list (all entries prior to
-     * the exceptionLine index)
+     * the event will already have a message - combine this message with the
+     * message lines in the additionalLines list (all entries prior to the
+     * exceptionLine index)
      * 
-     * @param firstMessageLine primary message line
-     * @param exceptionLine index of first exception line
+     * @param firstMessageLine
+     *            primary message line
+     * @param exceptionLine
+     *            index of first exception line
      * @return message
      */
     private String buildMessage(String firstMessageLine, int exceptionLine) {
@@ -695,7 +710,8 @@ public class Log4JParserProcess extends AbsLogProcess implements Log4jConst {
     /**
      * Convert the match into a map.
      * <p>
-     * Relies on the fact that the matchingKeywords list is in the same order as the groups in the regular expression
+     * Relies on the fact that the matchingKeywords list is in the same order as
+     * the groups in the regular expression
      * 
      * @param result
      * @return map

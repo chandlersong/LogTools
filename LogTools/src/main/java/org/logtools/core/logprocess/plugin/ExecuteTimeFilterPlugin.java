@@ -1,4 +1,3 @@
-
 package org.logtools.core.logprocess.plugin;
 
 import java.io.File;
@@ -14,7 +13,8 @@ import org.logtools.core.domain.LogEntry;
 import org.logtools.core.writer.impl.LogFileWriter;
 
 /**
- * Filter the Log according to the execute time than the previous and output the log<br>
+ * Filter the Log according to the execute time than the previous and output the
+ * log<br>
  * Format:<br>
  * execute time,time <br>
  * Previous log,run time, previous message <br>
@@ -55,7 +55,6 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
         }
 
         Long delta = entry.getTime().getTime() - previousLogEntry.getTime().getTime();
-        previousLogEntry = entry;
 
         if (delta > timeBarrier) {
             this.exportLog(entry, previousLogEntry, delta);

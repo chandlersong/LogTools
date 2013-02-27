@@ -4,4 +4,17 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
+	<bean id="TIME_FILTER_PLUGIN_BEAN"
+		class="org.logtools.core.logprocess.plugin.ExecuteTimeFilterPlugin">
+	</bean>
+	
+	<bean id="PROCESS_BEAN"
+		class="org.logtools.core.logprocess.log4jimpl.Log4JParserProcess">
+		<property name="plugins">
+		    <list>
+		    	<ref bean="TIME_FILTER_PLUGIN_BEAN"/>
+		    </list>
+		</property>
+	</bean>
+
 </beans>

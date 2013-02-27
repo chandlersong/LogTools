@@ -1,4 +1,3 @@
-
 package org.logtools.script;
 
 import java.io.File;
@@ -29,6 +28,7 @@ public class ExecuteTimeFilterScriptTest {
         exportFile.createNewFile();
         ExecuteTimeFilterScript script = new ExecuteTimeFilterScript();
         script.setExportFile(exportFile);
+        script.setExcepression(TestConst.Log4jFormat);
         script.process(logFile);
         logger.info("result file:" + exportFile.getAbsolutePath());
         List<String> lines = FileUtils.readLines(exportFile);
@@ -36,7 +36,7 @@ public class ExecuteTimeFilterScriptTest {
 
         Assert.assertEquals("execute time,600", lines.get(0));
         Assert.assertEquals("Previous log,2013-02-26 16:33:27.691,3", lines.get(1));
-        Assert.assertEquals("current log,2013-02-26 16:33:28.291, 4", lines.get(2));
+        Assert.assertEquals("current log,2013-02-26 16:33:28.291,4", lines.get(2));
 
         Assert.assertEquals("execute time,700", lines.get(3));
         Assert.assertEquals("Previous log,2013-02-26 16:33:28.292,7", lines.get(4));
@@ -44,11 +44,11 @@ public class ExecuteTimeFilterScriptTest {
 
         Assert.assertEquals("execute time,1000", lines.get(6));
         Assert.assertEquals("Previous log,2013-02-26 16:33:28.993,12", lines.get(7));
-        Assert.assertEquals("current log,2013-02-26 16:33:29.993, 13", lines.get(8));
+        Assert.assertEquals("current log,2013-02-26 16:33:29.993,13", lines.get(8));
 
         Assert.assertEquals("execute time,900", lines.get(9));
         Assert.assertEquals("Previous log,2013-02-26 16:33:29.993,13", lines.get(10));
-        Assert.assertEquals("current log,2013-02-26 16:33:30.893, 14", lines.get(11));
+        Assert.assertEquals("current log,2013-02-26 16:33:30.893,14", lines.get(11));
     }
 
     /**
@@ -62,10 +62,11 @@ public class ExecuteTimeFilterScriptTest {
         File logFile = new File("src/test/resources/logfile/ExecuteTimeFilter.log");
         exportFile.createNewFile();
         ExecuteTimeFilterScript script = new ExecuteTimeFilterScript();
+        script.setExcepression(TestConst.Log4jFormat);
         script.setExportFile(exportFile);
         script.setBarrier(200); // set time to 200
         script.process(logFile);
-        logger.info("result file:" + exportFile.getAbsolutePath());
+        logger.info("result file,barrier 200:" + exportFile.getAbsolutePath());
         List<String> lines = FileUtils.readLines(exportFile);
         Assert.assertEquals(15, lines.size());
 
@@ -90,10 +91,12 @@ public class ExecuteTimeFilterScriptTest {
         Assert.assertEquals("current log,2013-02-26 16:33:30.893,14", lines.get(14));
 
         exportFile = new File(TestConst.OutputPath, RandomStringUtils.randomAlphabetic(10) + ".txt");
+        exportFile.createNewFile();
+        logger.info("result file,barrier 699:" + exportFile.getAbsolutePath());
         script.setBarrier(699); // set time to 200
         script.setExportFile(exportFile);
         script.process(logFile);
-
+        lines = FileUtils.readLines(exportFile);
         Assert.assertEquals(9, lines.size());
 
         Assert.assertEquals("execute time,700", lines.get(0));
