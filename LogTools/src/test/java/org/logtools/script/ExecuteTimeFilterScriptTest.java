@@ -41,14 +41,36 @@ public class ExecuteTimeFilterScriptTest {
         Assert.assertEquals("execute time,700", lines.get(3));
         Assert.assertEquals("Previous log,2013-02-26 16:33:28.292,7", lines.get(4));
         Assert.assertEquals("current log,2013-02-26 16:33:28.992,8", lines.get(5));
+    }
 
-        Assert.assertEquals("execute time,1000", lines.get(6));
-        Assert.assertEquals("Previous log,2013-02-26 16:33:28.993,12", lines.get(7));
-        Assert.assertEquals("current log,2013-02-26 16:33:29.993,13", lines.get(8));
+    @Test
+    public void testProcessSimpleMultiThread() throws IOException {
+        File exportFile = new File(TestConst.OutputPath, RandomStringUtils.randomAlphabetic(10) + ".txt");
+        File logFile = new File("src/test/resources/logfile/ExecuteTimeFilterMulti.log");
+        exportFile.createNewFile();
+        ExecuteTimeFilterScript script = new ExecuteTimeFilterScript();
+        script.setExportFile(exportFile);
+        script.setExcepression(TestConst.Log4jFormat);
+        script.process(logFile);
+        logger.info("result file:" + exportFile.getAbsolutePath());
+        List<String> lines = FileUtils.readLines(exportFile);
+        Assert.assertEquals(12, lines.size());
 
-        Assert.assertEquals("execute time,900", lines.get(9));
-        Assert.assertEquals("Previous log,2013-02-26 16:33:29.993,13", lines.get(10));
-        Assert.assertEquals("current log,2013-02-26 16:33:30.893,14", lines.get(11));
+        Assert.assertEquals("execute time,601", lines.get(0));
+        Assert.assertEquals("Previous log,2013-02-27 20:55:35.693,3,11", lines.get(1));
+        Assert.assertEquals("current log,2013-02-27 20:55:36.294,4,11", lines.get(2));
+
+        Assert.assertEquals("execute time,604", lines.get(3));
+        Assert.assertEquals("Previous log,2013-02-27 20:55:35.693,3,10", lines.get(4));
+        Assert.assertEquals("current log,2013-02-27 20:55:36.297,4,10", lines.get(5));
+
+        Assert.assertEquals("execute time,700", lines.get(6));
+        Assert.assertEquals("Previous log,2013-02-27 20:55:36.295,7,11", lines.get(7));
+        Assert.assertEquals("current log,2013-02-27 20:55:36.995,8,11", lines.get(8));
+
+        Assert.assertEquals("execute time,701", lines.get(9));
+        Assert.assertEquals("Previous log,2013-02-27 20:55:36.297,7,10", lines.get(10));
+        Assert.assertEquals("current log,2013-02-27 20:55:36.998,8,10", lines.get(11));
     }
 
     /**
