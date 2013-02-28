@@ -43,6 +43,35 @@ public class ExecuteTimeFilterScriptTest {
         Assert.assertEquals("current log,2013-02-26 16:33:28.992,8", lines.get(5));
     }
 
+    /**
+     * default barrier is 500ms
+     * 
+     * @throws IOException
+     */
+    @Test
+    public void testProcessSummary() throws IOException {
+        String randomFileName = RandomStringUtils.randomAlphabetic(10);
+        File exportFile = new File(TestConst.OutputPath, randomFileName + ".txt");
+        File logFile = new File("src/test/resources/logfile/ExecuteTimeFilterSummary.log");
+        exportFile.createNewFile();
+
+        ExecuteTimeFilterScript script = new ExecuteTimeFilterScript();
+        script.setExportFile(exportFile);
+        script.setExcepression(TestConst.Log4jFormat);
+        script.process(logFile);
+
+        File exportSummaryFile = new File(TestConst.OutputPath, randomFileName + "Summary.txt");
+        Assert.assertTrue(exportSummaryFile.exists());
+
+        logger.info("result file:" + exportFile.getAbsolutePath());
+        List<String> lines = FileUtils.readLines(exportFile);
+
+        Assert.assertEquals(3, lines.size());
+        Assert.assertEquals("Frequency,avg,mid,sd,max,min,message", lines.get(0));
+        Assert.assertEquals("7,avg,mid,sd,max,min,Frequency", lines.get(1));
+        Assert.assertEquals("6,avg,mid,sd,max,min,xxxxx", lines.get(2));
+    }
+
     @Test
     public void testProcessSimpleMultiThread() throws IOException {
         File exportFile = new File(TestConst.OutputPath, RandomStringUtils.randomAlphabetic(10) + ".txt");

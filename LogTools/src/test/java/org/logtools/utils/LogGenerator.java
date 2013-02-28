@@ -1,4 +1,3 @@
-
 package org.logtools.utils;
 
 import java.util.concurrent.CountDownLatch;
@@ -47,7 +46,7 @@ public class LogGenerator {
     }
 
     @Test
-    public void generateForExecuteTimeFilterForFrequency() throws InterruptedException {
+    public void generateForExecuteTimeFilterForSummary() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(2);
         Thread t1 = new Thread(new Runnable() {
 
@@ -55,23 +54,25 @@ public class LogGenerator {
                 try {
                     logger.info("1," + Thread.currentThread().getId());
                     Thread.sleep(600);
-                    logger.info("Frequency," + Thread.currentThread().getId());
+                    logger.info("Frequency");
                     logger.info("2," + Thread.currentThread().getId());
                     Thread.sleep(700);
-                    logger.info("xxxxx," + Thread.currentThread().getId());
+                    logger.info("xxxxx");
                     logger.info("3," + Thread.currentThread().getId());
                     Thread.sleep(600);
-                    logger.info("Frequency," + Thread.currentThread().getId());
+                    logger.info("Frequency");
                     logger.info("4," + Thread.currentThread().getId());
                     logger.info("5," + Thread.currentThread().getId());
                     Thread.sleep(700);
-                    logger.info("Frequency," + Thread.currentThread().getId());
+                    logger.info("Frequency");
                     logger.info("6," + Thread.currentThread().getId());
                     Thread.sleep(700);
-                    logger.info("Frequency," + Thread.currentThread().getId());
+                    logger.info("Frequency");
                     logger.info("7," + Thread.currentThread().getId());
                     Thread.sleep(700);
-                    logger.info("Frequency," + Thread.currentThread().getId());
+                    logger.info("Frequency");
+                    Thread.sleep(700);
+                    logger.info("Frequency");
                     logger.info("8," + Thread.currentThread().getId());
                     logger.info("9," + Thread.currentThread().getId());
                     logger.info("10," + Thread.currentThread().getId());
@@ -88,26 +89,26 @@ public class LogGenerator {
                 try {
                     logger.info("1," + Thread.currentThread().getId());
                     Thread.sleep(700);
-                    logger.info("xxxxx," + Thread.currentThread().getId());
+                    logger.info("xxxxx");
                     logger.info("2," + Thread.currentThread().getId());
                     logger.info("3," + Thread.currentThread().getId());
                     Thread.sleep(600);
-                    logger.info("xxxxx," + Thread.currentThread().getId());
+                    logger.info("xxxxx");
                     logger.info("4," + Thread.currentThread().getId());
                     logger.info("5," + Thread.currentThread().getId());
                     Thread.sleep(700);
-                    logger.info("xxxxx," + Thread.currentThread().getId());
+                    logger.info("xxxxx");
                     logger.info("6," + Thread.currentThread().getId());
                     Thread.sleep(700);
-                    logger.info("xxxxx," + Thread.currentThread().getId());
+                    logger.info("xxxxx");
                     logger.info("7," + Thread.currentThread().getId());
                     Thread.sleep(700);
-                    logger.info("xxxxx," + Thread.currentThread().getId());
+                    logger.info("xxxxx");
                     logger.info("8," + Thread.currentThread().getId());
                     logger.info("9," + Thread.currentThread().getId());
                     logger.info("10," + Thread.currentThread().getId());
                     Thread.sleep(600);
-                    logger.info("Frequency," + Thread.currentThread().getId());
+                    logger.info("Frequency");
                 } catch (InterruptedException e) {
                 }
                 latch.countDown();
