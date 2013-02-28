@@ -64,12 +64,12 @@ public class ExecuteTimeFilterScriptTest {
         Assert.assertTrue(exportSummaryFile.exists());
 
         logger.info("result file:" + exportFile.getAbsolutePath());
-        List<String> lines = FileUtils.readLines(exportFile);
+        List<String> lines = FileUtils.readLines(exportSummaryFile);
 
         Assert.assertEquals(3, lines.size());
-        Assert.assertEquals("Frequency,avg,mid,sd,max,min,message", lines.get(0));
-        Assert.assertEquals("7,avg,mid,sd,max,min,Frequency", lines.get(1));
-        Assert.assertEquals("6,avg,mid,sd,max,min,xxxxx", lines.get(2));
+        Assert.assertEquals("frequency,mean,mid,90% value,sd,max,min,message", lines.get(0));
+        Assert.assertEquals("7,657.8571428571429,700.0,701.0,52.881718868397144,701.0,600.0,Frequency", lines.get(1));
+        Assert.assertEquals("6,684.0,700.0,703.0,41.16794869798591,703.0,600.0,xxxxx", lines.get(2));
     }
 
     @Test

@@ -2,14 +2,23 @@ package org.logtools.core.logprocess.plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.log4j.Logger;
 import org.logtools.Const;
 import org.logtools.Exception.ExportResultException;
 import org.logtools.core.domain.LogEntry;
+import org.logtools.core.logprocess.plugin.commons.SortbyFrequencyComparator;
+import org.logtools.core.logprocess.plugin.commons.SummaryResult;
 import org.logtools.core.writer.impl.LogFileWriter;
 
 /**
@@ -24,9 +33,11 @@ import org.logtools.core.writer.impl.LogFileWriter;
  */
 public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
 
+    private static final String SUMMARY_TXT = "Summary.txt";
+
     private static final String DEFAULT_FILE_NAME = "ExecuteTimeFilter.txt";
 
-    private Map<String, LogEntry> previousLogEntryMap;
+    private Map<String, LogEntry> previousLogEntryMap; // thread, logEntry
 
     private int timeBarrier = 500;
 
@@ -41,6 +52,14 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
     private final static String LINE_3 = "current log,%1$s,%2$s";
 
     private String timestampFormat = "yyyy-MM-dd HH:mm:ss.SSS";
+
+    private final static String TITLE = "frequency,mean,mid,90% value,sd,max,min,message" + Const.NEW_LINE;
+
+    private final static String SUMMARY_FORMAT = "%1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s,%8$s" + Const.NEW_LINE;
+    // message, SummaryResult
+    private Map<String, SummaryResult> summaryMap = new HashMap<String, SummaryResult>();
+
+    private static Logger logger = Logger.getLogger(ExecuteTimeFilterPlugin.class);
 
     @Override
     public void executeAfterPostLogEntry(LogEntry entry) {
@@ -58,12 +77,69 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
 
         if (delta > timeBarrier) {
             this.exportLog(entry, previousLogEntry, delta);
+
+            String message = entry.getMessage();
+            SummaryResult sr = summaryMap.get(entry.getMessage());
+
+            if (sr == null) {
+                sr = new SummaryResult();
+                sr.setMessage(message);
+            }
+
+            sr.addValue(delta);
+            summaryMap.put(message, sr);
+
         }
     }
 
     @Override
     public void executeAfterProcess(File[] files) {
         writer.close();
+
+        try {
+            this.exportSummary();
+        } catch (IOException e) {
+            logger.error("generate summary file error", e);
+        }
+    }
+
+    private void exportSummary() throws IOException {
+
+        String fileName = FilenameUtils.getBaseName(exportFile.getName()) + SUMMARY_TXT;
+        File SummaryFile = new File(exportFile.getParent(), fileName);
+
+        try {
+            SummaryFile.createNewFile();
+        } catch (IOException e) {
+            // never happened;
+        }
+
+        FileUtils.writeStringToFile(SummaryFile, TITLE, true);
+        ArrayList<SummaryResult> srList = new ArrayList<SummaryResult>(summaryMap.values());
+        Collections.sort(srList, new SortbyFrequencyComparator());
+
+        Iterator<SummaryResult> iter = srList.iterator();
+
+        SummaryResult sr;
+        DescriptiveStatistics statistics;
+        String message;
+        String line;
+        while (iter.hasNext()) {
+            sr = iter.next();
+            statistics = sr.getStatistics();
+            message = sr.getMessage();
+            // Frequency,avg,mid,90% value,sd,max,min,message
+            line = String.format(SUMMARY_FORMAT,
+                    statistics.getN(),
+                    statistics.getMean(),
+                    statistics.getPercentile(50),
+                    statistics.getPercentile(90),
+                    statistics.getStandardDeviation(),
+                    statistics.getMax(),
+                    statistics.getMin(),
+                    message);
+            FileUtils.writeStringToFile(SummaryFile, line, true);
+        }
     }
 
     @Override
