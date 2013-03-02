@@ -68,8 +68,9 @@ public class ExecuteTimeFilterScriptTest {
 
         Assert.assertEquals(3, lines.size());
         Assert.assertEquals("frequency,mean,mid,90% value,sd,max,min,message", lines.get(0));
-        Assert.assertEquals("7,657.8571428571429,700.0,701.0,52.881718868397144,701.0,600.0,Frequency", lines.get(1));
-        Assert.assertEquals("6,684.0,700.0,703.0,41.16794869798591,703.0,600.0,xxxxx", lines.get(2));
+        Assert.assertEquals("6,684.0,700.0,703.0,41.16794869798591,703.0,600.0,xxxxx", lines.get(1));
+        Assert.assertEquals("7,657.8571428571429,700.0,701.0,52.881718868397144,701.0,600.0,Frequency", lines.get(2));
+
     }
 
     @Test

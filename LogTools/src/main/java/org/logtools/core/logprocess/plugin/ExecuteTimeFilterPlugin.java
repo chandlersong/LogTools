@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 import org.logtools.Const;
 import org.logtools.Exception.ExportResultException;
 import org.logtools.core.domain.LogEntry;
-import org.logtools.core.logprocess.plugin.commons.SortbyFrequencyComparator;
+import org.logtools.core.logprocess.plugin.commons.SortbyMeanTimeComparator;
 import org.logtools.core.logprocess.plugin.commons.SummaryResult;
 import org.logtools.core.writer.impl.LogFileWriter;
 
@@ -116,7 +116,7 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
 
         FileUtils.writeStringToFile(SummaryFile, TITLE, true);
         ArrayList<SummaryResult> srList = new ArrayList<SummaryResult>(summaryMap.values());
-        Collections.sort(srList, new SortbyFrequencyComparator());
+        Collections.sort(srList, new SortbyMeanTimeComparator());
 
         Iterator<SummaryResult> iter = srList.iterator();
 
