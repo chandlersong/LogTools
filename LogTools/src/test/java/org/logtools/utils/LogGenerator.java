@@ -182,29 +182,29 @@ public class LogGenerator {
     }
 
     @Test
-    public void generateForCalculateAverageExecuteTime() throws InterruptedException {
+    public void generateForAverageExecuteTime() throws InterruptedException {
 
         final CountDownLatch latch = new CountDownLatch(2);
         Thread t1 = new Thread(new Runnable() {
 
             public void run() {
                 try {
-                    logger.info("start," + Thread.currentThread().getId());
+                    logger.info("start");
                     logger.info("1," + Thread.currentThread().getId());
                     Thread.sleep(300);
                     logger.info("2," + Thread.currentThread().getId());
-                    logger.info("end," + Thread.currentThread().getId());
-                    logger.info("start," + Thread.currentThread().getId());
+                    logger.info("end");
+                    logger.info("start");
                     logger.info("3," + Thread.currentThread().getId());
                     Thread.sleep(600);
                     logger.info("4," + Thread.currentThread().getId());
                     logger.info("5," + Thread.currentThread().getId());
                     logger.info("6," + Thread.currentThread().getId());
-                    logger.info("start," + Thread.currentThread().getId());
+                    logger.info("start");
                     logger.info("7," + Thread.currentThread().getId());
                     Thread.sleep(700);
                     logger.info("8," + Thread.currentThread().getId());
-                    logger.info("end," + Thread.currentThread().getId());
+                    logger.info("end");
                     logger.info("9," + Thread.currentThread().getId());
                     logger.info("10," + Thread.currentThread().getId());
                 } catch (InterruptedException e) {
@@ -218,25 +218,25 @@ public class LogGenerator {
 
             public void run() {
                 try {
-                    logger.info("start," + Thread.currentThread().getId());
+                    logger.info("start");
                     logger.info("1," + Thread.currentThread().getId());
                     Thread.sleep(300);
                     logger.info("2," + Thread.currentThread().getId());
-                    logger.info("end," + Thread.currentThread().getId());
+                    logger.info("end");
                     logger.info("3," + Thread.currentThread().getId());
-                    logger.info("start," + Thread.currentThread().getId());
+                    logger.info("start");
                     Thread.sleep(600);
                     logger.info("4," + Thread.currentThread().getId());
-                    logger.info("end," + Thread.currentThread().getId());
-                    logger.info("start," + Thread.currentThread().getId());
+                    logger.info("end");
+                    logger.info("start");
                     logger.info("5," + Thread.currentThread().getId());
                     logger.info("6," + Thread.currentThread().getId());
                     logger.info("7," + Thread.currentThread().getId());
                     Thread.sleep(700);
                     logger.info("8," + Thread.currentThread().getId());
-                    logger.info("end," + Thread.currentThread().getId());
+                    logger.info("end");
                     logger.info("9," + Thread.currentThread().getId());
-                    logger.info("end," + Thread.currentThread().getId());
+                    logger.info("end");
                     logger.info("10," + Thread.currentThread().getId());
                 } catch (InterruptedException e) {
                 }
