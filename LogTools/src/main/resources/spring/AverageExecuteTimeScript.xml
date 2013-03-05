@@ -6,7 +6,8 @@
 	<import resource="commonScripts.xml"/>
 
 	<bean id="AVERAGE_EXECUTE_TIME_PLUGIN_BEAN"
-		class="org.logtools.core.logprocess.plugin.AverageExectueTimePlugin">
+		class="org.logtools.core.logprocess.plugin.AverageExectueTimePlugin"
+		init-method="initialize">
 	</bean>
 	
 	<bean id="PROCESS_BEAN" 

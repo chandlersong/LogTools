@@ -56,6 +56,14 @@ public abstract class CommonScript implements Script {
         process.process(logs);
     }
 
+    public LogProcess getProcess() {
+        return process;
+    }
+
+    public void setProcess(LogProcess process) {
+        this.process = process;
+    }
+
     /**
      * the sub class should add the spring file it need to for the script
      * 

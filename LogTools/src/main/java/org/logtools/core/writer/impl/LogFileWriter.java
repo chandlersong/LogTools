@@ -9,6 +9,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.logtools.Const;
@@ -17,6 +18,8 @@ import org.logtools.core.domain.LogEntry;
 import org.logtools.core.writer.LogWriter;
 
 public class LogFileWriter implements LogWriter {
+
+    private static final String DEFAULT_FILE_NAME = ".TXT";
 
     private static Logger logger = Logger.getLogger(LogFileWriter.class);
 
@@ -44,6 +47,7 @@ public class LogFileWriter implements LogWriter {
     public LogFileWriter(File outputFile) {
         super();
         this.outputFile = outputFile;
+        this.perpareExportFile(outputFile);
     }
 
     public void writeOneLine(String line) {
@@ -52,6 +56,20 @@ public class LogFileWriter implements LogWriter {
 
     public void writeOneLogEntry(LogEntry logEntry) {
         this.writeOneLine(logEntry.getContent());
+    }
+
+    private void perpareExportFile(File exportFile) {
+
+        if (exportFile == null) {
+            exportFile = new File(Const.DEFALT_REPORT_FOLDER, RandomStringUtils.randomAlphabetic(5) + DEFAULT_FILE_NAME);
+            try {
+                exportFile.createNewFile();
+            } catch (IOException e) {
+                ExportResultException ex = new ExportResultException();
+                ex.initCause(e);
+                throw ex;
+            }
+        }
     }
 
     public void start() {

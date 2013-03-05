@@ -1,3 +1,4 @@
+
 package org.logtools.core.logprocess.plugin;
 
 import java.io.File;
@@ -10,20 +11,17 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.log4j.Logger;
 import org.logtools.Const;
-import org.logtools.Exception.ExportResultException;
 import org.logtools.core.domain.LogEntry;
 import org.logtools.core.logprocess.plugin.commons.SortbyMeanTimeComparator;
 import org.logtools.core.logprocess.plugin.commons.SummaryResult;
 import org.logtools.core.writer.impl.LogFileWriter;
 
 /**
- * Filter the Log according to the execute time than the previous and output the
- * log<br>
+ * Filter the Log according to the execute time than the previous and output the log<br>
  * Format:<br>
  * execute time,time <br>
  * Previous log,run time, previous message <br>
@@ -34,8 +32,6 @@ import org.logtools.core.writer.impl.LogFileWriter;
 public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
 
     private static final String SUMMARY_TXT = "Summary.txt";
-
-    private static final String DEFAULT_FILE_NAME = "ExecuteTimeFilter.txt";
 
     private Map<String, LogEntry> previousLogEntryMap; // thread, logEntry
 
@@ -51,11 +47,10 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
 
     private final static String LINE_3 = "current log,%1$s,%2$s";
 
-    private String timestampFormat = "yyyy-MM-dd HH:mm:ss.SSS";
-
     private final static String TITLE = "frequency,mean,mid,90% value,sd,max,min,message" + Const.NEW_LINE;
 
     private final static String SUMMARY_FORMAT = "%1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s,%8$s" + Const.NEW_LINE;
+
     // message, SummaryResult
     private Map<String, SummaryResult> summaryMap = new HashMap<String, SummaryResult>();
 
@@ -129,22 +124,15 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
             statistics = sr.getStatistics();
             message = sr.getMessage();
             // Frequency,avg,mid,90% value,sd,max,min,message
-            line = String.format(SUMMARY_FORMAT,
-                    statistics.getN(),
-                    statistics.getMean(),
-                    statistics.getPercentile(50),
-                    statistics.getPercentile(90),
-                    statistics.getStandardDeviation(),
-                    statistics.getMax(),
-                    statistics.getMin(),
-                    message);
+            line = String.format(SUMMARY_FORMAT, statistics.getN(), statistics.getMean(), statistics.getPercentile(50),
+                    statistics.getPercentile(90), statistics.getStandardDeviation(), statistics.getMax(),
+                    statistics.getMin(), message);
             FileUtils.writeStringToFile(SummaryFile, line, true);
         }
     }
 
     @Override
     public void executeBeforeProcess(File[] files) {
-        this.perpareExportFile();
         writer = new LogFileWriter(exportFile);
         writer.start();
 
@@ -152,24 +140,10 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
     }
 
     private void exportLog(LogEntry current, LogEntry pervious, long delta) {
-        FastDateFormat format = FastDateFormat.getInstance(timestampFormat);
+        FastDateFormat format = FastDateFormat.getInstance(this.getTimestampFormat());
         writer.writeOneLine(String.format(LINE_1, String.valueOf(delta)));
         writer.writeOneLine(String.format(LINE_2, format.format(pervious.getTime()), pervious.getMessage()));
         writer.writeOneLine(String.format(LINE_3, format.format(current.getTime()), current.getMessage()));
-    }
-
-    private void perpareExportFile() {
-
-        if (exportFile == null) {
-            exportFile = new File(Const.DEFALT_REPORT_FOLDER, RandomStringUtils.randomAlphabetic(5) + DEFAULT_FILE_NAME);
-            try {
-                exportFile.createNewFile();
-            } catch (IOException e) {
-                ExportResultException ex = new ExportResultException();
-                ex.initCause(e);
-                throw ex;
-            }
-        }
     }
 
     public int getTimeBarrier() {
@@ -191,14 +165,6 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
 
     public void setExportFile(File exportFile) {
         this.exportFile = exportFile;
-    }
-
-    public String getTimestampFormat() {
-        return timestampFormat;
-    }
-
-    public void setTimestampFormat(String timestampFormat) {
-        this.timestampFormat = timestampFormat;
     }
 
 }

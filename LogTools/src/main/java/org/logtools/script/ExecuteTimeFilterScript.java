@@ -30,6 +30,8 @@ public class ExecuteTimeFilterScript extends CommonScript {
     private void initialize() {
         ApplicationContext context = this.getContext();
         plugin = context.getBean(TIME_FILTER_PLUGIN_BEAN, ExecuteTimeFilterPlugin.class);
+
+        plugin.setTimestampFormat(this.getProcess().getTimestampFormat());
     }
 
     @Override

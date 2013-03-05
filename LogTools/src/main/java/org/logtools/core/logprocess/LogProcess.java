@@ -1,3 +1,4 @@
+
 package org.logtools.core.logprocess;
 
 import java.io.File;
@@ -14,6 +15,8 @@ public interface LogProcess {
     void process(File[] logFile);
 
     void setExcepression(String expression);
+
+    String getTimestampFormat();
 
     void addFilter(LogFilter... filter);
 

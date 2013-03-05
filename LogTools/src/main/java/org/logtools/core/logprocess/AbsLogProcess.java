@@ -25,6 +25,7 @@ public abstract class AbsLogProcess implements LogProcess {
     public void process(File[] logFiles) {
         processOnefile = false;
         for (LogPlugin plugin : plugins) {
+            plugin.setTimestampFormat(this.getTimestampFormat());
             plugin.executeBeforeProcess(logFiles);
         }
 
@@ -52,6 +53,7 @@ public abstract class AbsLogProcess implements LogProcess {
 
         if (processOnefile) {
             for (LogPlugin plugin : plugins) {
+                plugin.setTimestampFormat(this.getTimestampFormat());
                 plugin.executeBeforeProcess(new File[] {
                     logFile
                 });
@@ -59,6 +61,7 @@ public abstract class AbsLogProcess implements LogProcess {
         }
 
         for (LogPlugin plugin : plugins) {
+            plugin.setTimestampFormat(this.getTimestampFormat());
             plugin.executeBeforeFinishOneFile(logFile);
         }
         this.doProcess(logFile);

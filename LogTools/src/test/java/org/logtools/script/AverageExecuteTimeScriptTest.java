@@ -44,12 +44,12 @@ public class AverageExecuteTimeScriptTest {
         Assert.assertEquals("start log,Thread-1,2013-03-04 22:39:55.029,start", lines.get(4));
         Assert.assertEquals("end log,Thread-1,2013-03-04 22:39:55.357,end", lines.get(5));
 
-        Assert.assertEquals("missing end", lines.get(6));
-        Assert.assertEquals("start log,Thread-0,2013-03-04 22:39:55.357,start", lines.get(7));
+        Assert.assertEquals("execute time,608", lines.get(6));
+        Assert.assertEquals("start log,Thread-1,2013-03-04 22:39:55.357,start", lines.get(7));
+        Assert.assertEquals("end log,Thread-1,2013-03-04 22:39:55.965,end", lines.get(8));
 
-        Assert.assertEquals("execute time,599", lines.get(8));
-        Assert.assertEquals("start log,Thread-1,2013-03-04 22:39:55.357,start", lines.get(9));
-        Assert.assertEquals("end log,Thread-1,2013-03-04 22:39:55.965,end", lines.get(10));
+        Assert.assertEquals("missing end", lines.get(9));
+        Assert.assertEquals("start log,Thread-0,2013-03-04 22:39:55.357,start", lines.get(10));
 
         Assert.assertEquals("execute time,703", lines.get(11));
         Assert.assertEquals("start log,Thread-1,2013-03-04 22:39:55.965,start", lines.get(12));

@@ -27,7 +27,7 @@ public class AverageExecuteTimeScript extends CommonScript {
 
     @Override
     protected List<String> addConfigfile(List<String> filelist) {
-        filelist.add("AverageExecuteTimeScript.xml.xml");
+        filelist.add("AverageExecuteTimeScript.xml");
         return filelist;
     }
 
