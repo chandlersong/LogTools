@@ -1,4 +1,3 @@
-
 package org.logtools.script;
 
 import java.io.File;
@@ -52,15 +51,15 @@ public class AverageExecuteTimeScriptTest {
         Assert.assertEquals("start log,Thread-0,2013-03-04 22:39:55.357,start", lines.get(10));
 
         Assert.assertEquals("execute time,703", lines.get(11));
-        Assert.assertEquals("start log,Thread-1,2013-03-04 22:39:55.965,start", lines.get(12));
-        Assert.assertEquals("end log,Thread-1,2013-03-04 22:39:56.668,end", lines.get(13));
+        Assert.assertEquals("start log,Thread-0,2013-03-04 22:39:55.965,start", lines.get(12));
+        Assert.assertEquals("end log,Thread-0,2013-03-04 22:39:56.668,end", lines.get(13));
 
         Assert.assertEquals("execute time,703", lines.get(14));
-        Assert.assertEquals("start log,Thread-0,2013-03-04 22:39:55.965,start", lines.get(15));
-        Assert.assertEquals("end log,Thread-0,2013-03-04 22:39:56.668,end", lines.get(16));
+        Assert.assertEquals("start log,Thread-1,2013-03-04 22:39:55.965,start", lines.get(15));
+        Assert.assertEquals("end log,Thread-1,2013-03-04 22:39:56.668,end", lines.get(16));
 
         Assert.assertEquals("missing start", lines.get(17));
-        Assert.assertEquals("start log,Thread-1,2013-03-04 22:39:56.668,end", lines.get(18));
+        Assert.assertEquals("end log,Thread-1,2013-03-04 22:39:56.668,end", lines.get(18));
     }
 
     @Test
@@ -107,30 +106,30 @@ public class AverageExecuteTimeScriptTest {
         List<String> lines = FileUtils.readLines(exportFile);
         Assert.assertEquals(19, lines.size());
 
-        Assert.assertEquals("execute time,308", lines.get(0));
-        Assert.assertEquals("start log,Thread-1,2013-03-04 22:26:31.700,start,11", lines.get(1));
-        Assert.assertEquals("end log,Thread-1,2013-03-04 22:26:32.008,end,11", lines.get(2));
+        Assert.assertEquals("execute time,304", lines.get(0));
+        Assert.assertEquals("start log,Thread-0,2013-03-04 22:26:31.700,start,10", lines.get(1));
+        Assert.assertEquals("end log,Thread-0,2013-03-04 22:26:32.004,end,10", lines.get(2));
 
-        Assert.assertEquals("execute time,304", lines.get(3));
-        Assert.assertEquals("start log,Thread-0,2013-03-04 22:26:31.700,start,10", lines.get(4));
-        Assert.assertEquals("end log,Thread-0,2013-03-04 22:26:32.004,end,10", lines.get(5));
+        Assert.assertEquals("execute time,308", lines.get(3));
+        Assert.assertEquals("start log,Thread-1,2013-03-04 22:26:31.700,start,11", lines.get(4));
+        Assert.assertEquals("end log,Thread-1,2013-03-04 22:26:32.008,end,11", lines.get(5));
 
-        Assert.assertEquals("missing end", lines.get(6));
-        Assert.assertEquals("start log,Thread-0,2013-03-04 22:26:32.008,start,10", lines.get(7));
+        Assert.assertEquals("execute time,603", lines.get(6));
+        Assert.assertEquals("start log,Thread-1,2013-03-04 22:26:32.010,start,11", lines.get(7));
+        Assert.assertEquals("end log,Thread-1,2013-03-04 22:26:32.613,end,11", lines.get(8));
 
-        Assert.assertEquals("execute time,603", lines.get(8));
-        Assert.assertEquals("start log,Thread-1,2013-03-04 22:26:32.010,start,11", lines.get(9));
-        Assert.assertEquals("end log,Thread-1,2013-03-04 22:26:32.613,end,11", lines.get(10));
+        Assert.assertEquals("missing end", lines.get(9));
+        Assert.assertEquals("start log,Thread-0,2013-03-04 22:26:32.008,start,10", lines.get(10));
 
-        Assert.assertEquals("execute time,702", lines.get(11));
-        Assert.assertEquals("start log,Thread-1,2013-03-04 22:26:32.613,start,11", lines.get(12));
-        Assert.assertEquals("end log,Thread-1,2013-03-04 22:26:33.315,end,11", lines.get(13));
+        Assert.assertEquals("execute time,704", lines.get(11));
+        Assert.assertEquals("start log,Thread-0,2013-03-04 22:26:32.610,start,10", lines.get(12));
+        Assert.assertEquals("end log,Thread-0,2013-03-04 22:26:33.314,end,10", lines.get(13));
 
-        Assert.assertEquals("execute time,704", lines.get(14));
-        Assert.assertEquals("start log,Thread-0,2013-03-04 22:26:32.610,start,10", lines.get(15));
-        Assert.assertEquals("end log,Thread-0,2013-03-04 22:26:33.314,end,10", lines.get(16));
+        Assert.assertEquals("execute time,702", lines.get(14));
+        Assert.assertEquals("start log,Thread-1,2013-03-04 22:26:32.613,start,11", lines.get(15));
+        Assert.assertEquals("end log,Thread-1,2013-03-04 22:26:33.315,end,11", lines.get(16));
 
         Assert.assertEquals("missing start", lines.get(17));
-        Assert.assertEquals("start log,Thread-1,2013-03-04 22:26:33.316,end,11", lines.get(18));
+        Assert.assertEquals("end log,Thread-1,2013-03-04 22:26:33.316,end,11", lines.get(18));
     }
 }

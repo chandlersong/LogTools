@@ -9,6 +9,7 @@
 	<configs>
 		<config>src/main/resources/spring/executeTimeFilterScript.xml</config>
 		<config>src/main/resources/spring/commonScripts.xml</config>
+		<config>src/main/resources/spring/AverageExecuteTimeScript.xml</config>
 	</configs>
 	<configSets>
 	</configSets>
