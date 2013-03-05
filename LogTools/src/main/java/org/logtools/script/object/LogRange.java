@@ -7,17 +7,17 @@ package org.logtools.script.object;
  * @author Chandler.Song
  * 
  */
-public class LogBarrier {
+public class LogRange {
 
     private String startLogMessage;
 
     private String endLogMessage;
 
-    public LogBarrier() {
+    public LogRange() {
 
     }
 
-    public LogBarrier(String startLogMessage, String endLogMessage) {
+    public LogRange(String startLogMessage, String endLogMessage) {
         super();
         this.startLogMessage = startLogMessage;
         this.endLogMessage = endLogMessage;
@@ -56,7 +56,7 @@ public class LogBarrier {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        LogBarrier other = (LogBarrier) obj;
+        LogRange other = (LogRange) obj;
         if (endLogMessage == null) {
             if (other.endLogMessage != null)
                 return false;

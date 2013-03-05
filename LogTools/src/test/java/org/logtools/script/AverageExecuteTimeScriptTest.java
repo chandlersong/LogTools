@@ -1,3 +1,4 @@
+
 package org.logtools.script;
 
 import java.io.File;
@@ -11,7 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.logtools.TestConst;
-import org.logtools.script.object.LogBarrier;
+import org.logtools.script.object.LogRange;
 
 public class AverageExecuteTimeScriptTest {
 
@@ -25,8 +26,8 @@ public class AverageExecuteTimeScriptTest {
         AverageExecuteTimeScript script = new AverageExecuteTimeScript();
         script.setExportFile(exportFile);
         script.setExcepression(TestConst.Log4jFormat);
-        LogBarrier barrier = new LogBarrier("start", "end");
-        script.setLogBarrier(barrier);
+        LogRange range = new LogRange("start", "end");
+        script.setLogRange(range);
 
         script.process(logFile);
 
@@ -74,6 +75,9 @@ public class AverageExecuteTimeScriptTest {
         script.setExcepression(TestConst.Log4jFormat);
         script.process(logFile);
 
+        LogRange range = new LogRange("start", "end");
+        script.setLogRange(range);
+
         File exportSummaryFile = new File(TestConst.OutputPath, randomFileName + "Summary.txt");
         Assert.assertTrue(exportSummaryFile.exists());
 
@@ -94,9 +98,8 @@ public class AverageExecuteTimeScriptTest {
         AverageExecuteTimeScript script = new AverageExecuteTimeScript();
         script.setExportFile(exportFile);
         script.setExcepression(TestConst.Log4jFormat);
-        LogBarrier barrier = new LogBarrier("start,\\d{1,2}", "end,\\d{1,2}");
-        script.setLogBarrier(barrier);
-
+        LogRange range = new LogRange("start,\\d{1,2}", "end,\\d{1,2}");
+        script.setLogRange(range);
         script.process(logFile);
 
         logger.info("result file:" + exportFile.getAbsolutePath());

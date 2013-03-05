@@ -1,9 +1,9 @@
+
 package org.logtools.script;
 
 import java.io.File;
 import java.util.List;
 
-import org.logtools.core.logprocess.LogProcess;
 import org.logtools.core.logprocess.plugin.ExecuteTimeFilterPlugin;
 import org.springframework.context.ApplicationContext;
 
@@ -23,8 +23,6 @@ public class ExecuteTimeFilterScript extends CommonScript {
 
     private ExecuteTimeFilterPlugin plugin;
 
-    private LogProcess process;
-
     public ExecuteTimeFilterScript() {
         this.initialize();
     }
@@ -32,7 +30,6 @@ public class ExecuteTimeFilterScript extends CommonScript {
     private void initialize() {
         ApplicationContext context = this.getContext();
         plugin = context.getBean(TIME_FILTER_PLUGIN_BEAN, ExecuteTimeFilterPlugin.class);
-        process = context.getBean(PROCESS_BEAN, LogProcess.class);
     }
 
     @Override
@@ -49,14 +46,6 @@ public class ExecuteTimeFilterScript extends CommonScript {
         plugin.setExportFile(exportFile);
     }
 
-    public void process(File log) {
-        process.process(log);
-    }
-
-    public void process(File[] logs) {
-        process.process(logs);
-    }
-
     public int getBarrier() {
         return plugin.getTimeBarrier();
     }
@@ -65,8 +54,9 @@ public class ExecuteTimeFilterScript extends CommonScript {
         plugin.setTimeBarrier(barrier);
     }
 
-    public void setExcepression(String expression) {
-        process.setExcepression(expression);
+    @Override
+    protected String getProcessID() {
+        return PROCESS_BEAN;
     }
 
 }

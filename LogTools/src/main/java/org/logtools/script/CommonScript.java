@@ -1,8 +1,11 @@
+
 package org.logtools.script;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.logtools.core.logprocess.LogProcess;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -10,9 +13,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * add some common support to script, like spring support
  * 
  * @author Chandler.Song
- * 
  */
 public abstract class CommonScript implements Script {
+
+    private LogProcess process;
 
     private ApplicationContext context;
 
@@ -21,8 +25,8 @@ public abstract class CommonScript implements Script {
     }
 
     public void inital() {
-        context =
-                new ClassPathXmlApplicationContext(this.getConfigureList());
+        context = new ClassPathXmlApplicationContext(this.getConfigureList());
+        process = context.getBean(this.getProcessID(), LogProcess.class);
     }
 
     protected final String[] getConfigureList() {
@@ -40,6 +44,18 @@ public abstract class CommonScript implements Script {
         this.context = context;
     }
 
+    public void setExcepression(String expression) {
+        process.setExcepression(expression);
+    }
+
+    public void process(File log) {
+        process.process(log);
+    }
+
+    public void process(File[] logs) {
+        process.process(logs);
+    }
+
     /**
      * the sub class should add the spring file it need to for the script
      * 
@@ -47,4 +63,6 @@ public abstract class CommonScript implements Script {
      * @return
      */
     protected abstract List<String> addConfigfile(List<String> filelist);
+
+    protected abstract String getProcessID();
 }

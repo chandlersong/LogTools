@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<import resource="commonScripts.xml"/>
+
+	<bean id="AVERAGE_EXECUTE_TIME_PLUGIN_BEAN"
+		class="org.logtools.core.logprocess.plugin.AverageExectueTimePlugin">
+	</bean>
+	
+	<bean id="PROCESS_BEAN" 
+		   parent = "BASIC_PROCESS_BEAN">
+		<property name="plugins">
+		    <list>
+		    	<ref bean="AVERAGE_EXECUTE_TIME_PLUGIN_BEAN"/>
+		    </list>
+		</property>
+	</bean>
+
+</beans>
