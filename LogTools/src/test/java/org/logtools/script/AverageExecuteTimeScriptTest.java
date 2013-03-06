@@ -1,3 +1,4 @@
+
 package org.logtools.script;
 
 import java.io.File;
@@ -72,20 +73,21 @@ public class AverageExecuteTimeScriptTest {
         AverageExecuteTimeScript script = new AverageExecuteTimeScript();
         script.setExportFile(exportFile);
         script.setExcepression(TestConst.Log4jFormat);
-        script.process(logFile);
 
         LogRange range = new LogRange("start", "end");
         script.setLogRange(range);
 
-        File exportSummaryFile = new File(TestConst.OutputPath, randomFileName + "Summary.txt");
+        script.process(logFile);
+
+        File exportSummaryFile = new File(TestConst.OutputPath, randomFileName + "Summary.csv");
         Assert.assertTrue(exportSummaryFile.exists());
 
         logger.info("result file:" + exportFile.getAbsolutePath());
         List<String> lines = FileUtils.readLines(exportSummaryFile);
 
         Assert.assertEquals(2, lines.size());
-        Assert.assertEquals("frequency,mean,mid,90% value,sd,max,min,missing start,missing end", lines.get(0));
-        Assert.assertEquals("6,684.0,700.0,703.0,41.16794869798591,703.0,600.0,1,1", lines.get(1));
+        Assert.assertEquals("frequency,mean,mid,90% value,sd,max,min,missing start,missing end,message", lines.get(0));
+        Assert.assertEquals("5,534.0,608.0,703.0,192.00911436700082,703.0,328.0,1,1,start-end", lines.get(1));
 
     }
 

@@ -1,3 +1,4 @@
+
 package org.logtools.script;
 
 import java.io.File;
@@ -23,7 +24,7 @@ public class ExecuteTimeFilterScriptTest {
      */
     @Test
     public void testProcessSimple() throws IOException {
-        File exportFile = new File(TestConst.OutputPath, RandomStringUtils.randomAlphabetic(10) + ".txt");
+        File exportFile = new File(TestConst.OutputPath, RandomStringUtils.randomAlphabetic(10) + ".csv");
         File logFile = new File("src/test/resources/logfile/ExecuteTimeFilter.log");
         exportFile.createNewFile();
         ExecuteTimeFilterScript script = new ExecuteTimeFilterScript();

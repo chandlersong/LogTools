@@ -1,7 +1,9 @@
-package org.logtools.core.logprocess.plugin.commons;
+
+package org.logtools.core.logprocess.plugin.exxecutetimefilterobjects;
 
 import java.util.Comparator;
 
+@Deprecated
 public class SortbyFrequencyComparator implements Comparator<SummaryResult> {
 
     public int compare(SummaryResult o1, SummaryResult o2) {

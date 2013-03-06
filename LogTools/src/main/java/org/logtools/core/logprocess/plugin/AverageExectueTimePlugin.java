@@ -2,15 +2,20 @@
 package org.logtools.core.logprocess.plugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.log4j.Logger;
+import org.logtools.Const;
 import org.logtools.core.domain.LogEntry;
+import org.logtools.core.logprocess.plugin.averageexecutetimeplugin.SummaryResult;
 import org.logtools.core.writer.impl.LogFileWriter;
 import org.logtools.script.object.LogRange;
 
@@ -32,6 +37,8 @@ public class AverageExectueTimePlugin extends AbsLogPlugin {
 
     private Map<String, LogEntry> startLogMap;
 
+    private SummaryResult summaryResult;
+
     private static class ExportContent {
         private final static String DETAIL_LINE_1 = "execute time,%1$s";
 
@@ -42,6 +49,12 @@ public class AverageExectueTimePlugin extends AbsLogPlugin {
         private final static String DETAIL_MISSING_START = "missing start";
 
         private final static String DETAIL_MISSING_END = "missing end";
+
+        private final static String SUMMARY_TITLE = "frequency,mean,mid,90% value,sd,max,min,missing start,missing end,message"
+                + Const.NEW_LINE;
+
+        private final static String SUMMARY_CONTENT = "%1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s,%8$s,%9$s,%10$s"
+                + Const.NEW_LINE;
     }
 
     @Override
@@ -96,11 +109,15 @@ public class AverageExectueTimePlugin extends AbsLogPlugin {
         // header
         if (startlog != null && endlog != null) {
             Long delta = endlog.getTime().getTime() - startlog.getTime().getTime();
+            summaryResult.addValue(delta);
             writer.writeOneLine(String.format(ExportContent.DETAIL_LINE_1, delta));
+            return;
         } else if (startlog != null && endlog == null) {
             writer.writeOneLine(ExportContent.DETAIL_MISSING_END);
+            summaryResult.missingEndIncrese();
         } else if (startlog == null && endlog != null) {
             writer.writeOneLine(ExportContent.DETAIL_MISSING_START);
+            summaryResult.missingStartIncrese();
         } else {
             return;
         }
@@ -133,6 +150,22 @@ public class AverageExectueTimePlugin extends AbsLogPlugin {
 
         inRangeMap = new HashMap<String, Boolean>();
         startLogMap = new HashMap<String, LogEntry>();
+
+        summaryResult = new SummaryResult();
+        summaryResult.setStartLog(range.getStartLogMessage());
+        summaryResult.setEndLog(range.getEndLogMessage());
+    }
+
+    private void exportSummary() throws IOException {
+
+        File SummaryFile = this.generateSummaryFile(exportFile);
+        DescriptiveStatistics statistics = summaryResult.getStatistics();
+        FileUtils.writeStringToFile(SummaryFile, ExportContent.SUMMARY_TITLE, true);
+        // frequency,mean,mid,90% value,sd,max,min,missing start,missing end,message
+        FileUtils.writeStringToFile(SummaryFile, String.format(ExportContent.SUMMARY_CONTENT, statistics.getN(),
+                statistics.getMean(), statistics.getPercentile(50), statistics.getPercentile(90),
+                statistics.getStandardDeviation(), statistics.getMax(), statistics.getMin(),
+                summaryResult.getMissingStart(), summaryResult.getMissingEnd(), summaryResult.getMessage()), true);
     }
 
     public void setRange(LogRange range) {
@@ -149,6 +182,12 @@ public class AverageExectueTimePlugin extends AbsLogPlugin {
     @Override
     public void executeAfterProcess(File[] files) {
         writer.close();
+
+        try {
+            this.exportSummary();
+        } catch (IOException e) {
+            logger.error("generate summary file error", e);
+        }
     }
 
     @Override

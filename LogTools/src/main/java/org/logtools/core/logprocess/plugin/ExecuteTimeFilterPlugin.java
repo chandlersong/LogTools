@@ -10,14 +10,13 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.log4j.Logger;
 import org.logtools.Const;
 import org.logtools.core.domain.LogEntry;
-import org.logtools.core.logprocess.plugin.commons.SortbyMeanTimeComparator;
-import org.logtools.core.logprocess.plugin.commons.SummaryResult;
+import org.logtools.core.logprocess.plugin.exxecutetimefilterobjects.SortbyMeanTimeComparator;
+import org.logtools.core.logprocess.plugin.exxecutetimefilterobjects.SummaryResult;
 import org.logtools.core.writer.impl.LogFileWriter;
 
 /**
@@ -30,8 +29,6 @@ import org.logtools.core.writer.impl.LogFileWriter;
  * @author chandler.song
  */
 public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
-
-    private static final String SUMMARY_TXT = "Summary.txt";
 
     private Map<String, LogEntry> previousLogEntryMap; // thread, logEntry
 
@@ -100,8 +97,7 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
 
     private void exportSummary() throws IOException {
 
-        String fileName = FilenameUtils.getBaseName(exportFile.getName()) + SUMMARY_TXT;
-        File SummaryFile = new File(exportFile.getParent(), fileName);
+        File SummaryFile = this.generateSummaryFile(exportFile);
 
         try {
             SummaryFile.createNewFile();
