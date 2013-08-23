@@ -40,9 +40,9 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
 
     private final static String LINE_1 = "execute time,%1$s";
 
-    private final static String LINE_2 = "Previous log,%1$s,%2$s";
+    private final static String LINE_2 = "Previous log,%1$s,%2$s,%3$s";
 
-    private final static String LINE_3 = "current log,%1$s,%2$s";
+    private final static String LINE_3 = "current log,%1$s,%2$s,%3$s";
 
     private final static String TITLE = "frequency,mean,mid,90% value,sd,max,min,message" + Const.NEW_LINE;
 
@@ -138,8 +138,10 @@ public class ExecuteTimeFilterPlugin extends AbsLogPlugin {
     private void exportLog(LogEntry current, LogEntry pervious, long delta) {
         FastDateFormat format = FastDateFormat.getInstance(this.getTimestampFormat());
         writer.writeOneLine(String.format(LINE_1, String.valueOf(delta)));
-        writer.writeOneLine(String.format(LINE_2, format.format(pervious.getTime()), pervious.getMessage()));
-        writer.writeOneLine(String.format(LINE_3, format.format(current.getTime()), current.getMessage()));
+        writer.writeOneLine(String.format(LINE_2, pervious.getLineInFile(), format.format(pervious.getTime()),
+                pervious.getMessage()));
+        writer.writeOneLine(String.format(LINE_3, current.getLineInFile(), format.format(current.getTime()),
+                current.getMessage()));
     }
 
     public int getTimeBarrier() {

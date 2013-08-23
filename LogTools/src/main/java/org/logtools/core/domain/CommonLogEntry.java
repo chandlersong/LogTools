@@ -26,6 +26,8 @@ public class CommonLogEntry implements LogEntry {
 
     private String content;
 
+    private String firstLineNumber;
+
     public CommonLogEntry() {
 
     }
@@ -130,6 +132,14 @@ public class CommonLogEntry implements LogEntry {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getFirstLineNumber() {
+        return firstLineNumber;
+    }
+
+    public void setFirstLineNumber(String firstLineNumber) {
+        this.firstLineNumber = firstLineNumber;
     }
 
     @Override

@@ -21,13 +21,6 @@ public interface LogEntry {
      */
     public String get(String pattern);
 
-    /**
-     * get the line number of this log<br>
-     * if one log entry is multi-line, for example. it's a exception log. it's line number is 10 and prints 10 lines.<br>
-     * the next LogEntry's lineNumber is 11
-     * 
-     * @return
-     */
     public ArrayList<String> getLineInFile();
 
     public String getFileName();
@@ -49,4 +42,6 @@ public interface LogEntry {
     public String getCatalog();
 
     public String getContent();
+
+    public String getFirstLineNumber();
 }
